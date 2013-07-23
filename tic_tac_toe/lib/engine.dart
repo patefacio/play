@@ -2,6 +2,41 @@ library engine;
 
 part "src/engine/engine.dart";
 
+/// Reason for move failing
+class InvalidMoveReason { 
+  static const BAD_LOCATION = const InvalidMoveReason._(0);
+  static const OUT_OF_TURN = const InvalidMoveReason._(1);
+  static const GAME_OVER = const InvalidMoveReason._(2);
+
+  static get values => [
+    BAD_LOCATION,
+    OUT_OF_TURN,
+    GAME_OVER
+  ];
+
+  final int value;
+
+  const InvalidMoveReason._(this.value);
+
+  String toString() { 
+    switch(this) { 
+      case BAD_LOCATION: return "BAD_LOCATION";
+      case OUT_OF_TURN: return "OUT_OF_TURN";
+      case GAME_OVER: return "GAME_OVER";
+    }
+  }
+
+  static InvalidMoveReason fromString(String s) { 
+    switch(s) { 
+      case "BAD_LOCATION": return BAD_LOCATION;
+      case "OUT_OF_TURN": return OUT_OF_TURN;
+      case "GAME_OVER": return GAME_OVER;
+    }
+  }
+
+
+}
+
 /// Player x or player o - mutually exclusive
 class Player { 
   static const PLAYER_X = const Player._(0);

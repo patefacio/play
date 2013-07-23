@@ -14,28 +14,28 @@ List<List<PositionState>> _transpose(List<List<PositionState>> original) {
 }
 
 main() {
-  group('Basic Board Tests', () {
+  final List<List<PositionState>> horWinMat1 =         
+    [
+      [ PositionState.HAS_X, PositionState.HAS_X, PositionState.HAS_X, ],
+      [ PositionState.EMPTY, PositionState.HAS_O, PositionState.HAS_O, ],
+      [ PositionState.HAS_O, PositionState.EMPTY, PositionState.HAS_X, ],
+    ];
 
-    List<List<PositionState>> horWinMat1 =         
-      [
-        [ PositionState.HAS_X, PositionState.HAS_X, PositionState.HAS_X, ],
-        [ PositionState.EMPTY, PositionState.HAS_O, PositionState.HAS_O, ],
-        [ PositionState.HAS_O, PositionState.EMPTY, PositionState.HAS_X, ],
-      ];
-
-    List<List<PositionState>> horWinMat2 =         
-      [
-        [ PositionState.HAS_O, PositionState.EMPTY, PositionState.HAS_X, ],
-        [ PositionState.EMPTY, PositionState.HAS_O, PositionState.HAS_O, ],
-        [ PositionState.HAS_X, PositionState.HAS_X, PositionState.HAS_X, ],
-      ];
+  final List<List<PositionState>> horWinMat2 =         
+    [
+      [ PositionState.HAS_O, PositionState.EMPTY, PositionState.HAS_X, ],
+      [ PositionState.EMPTY, PositionState.HAS_O, PositionState.HAS_O, ],
+      [ PositionState.HAS_X, PositionState.HAS_X, PositionState.HAS_X, ],
+    ];
     
-    List<List<PositionState>> horWinMat3 =
-      [
-        [ PositionState.HAS_O, PositionState.EMPTY, PositionState.HAS_X, ],
-        [ PositionState.HAS_X, PositionState.HAS_X, PositionState.HAS_X, ],
-        [ PositionState.EMPTY, PositionState.HAS_O, PositionState.HAS_O, ],
-      ];
+  final List<List<PositionState>> horWinMat3 =
+    [
+      [ PositionState.HAS_O, PositionState.EMPTY, PositionState.HAS_X, ],
+      [ PositionState.HAS_X, PositionState.HAS_X, PositionState.HAS_X, ],
+      [ PositionState.EMPTY, PositionState.HAS_O, PositionState.HAS_O, ],
+    ];
+
+  group('Basic Board Tests', () {
 
     IBoard horizontalWin1 = new Board.fromMatrix(horWinMat1);
     IBoard horizontalWin2 = new Board.fromMatrix(horWinMat2);
@@ -142,23 +142,39 @@ main() {
       expect(gameEngine.positionState(0,0), equals(PositionState.HAS_X));
     });
 
-    test('X Goes First: Exception', () {
+    test('X Goes First Exception', () {
       IGameEngine gameEngine = new BasicGameEngine(Player.PLAYER_O);
-      expect(() => gameEngine.move(new PlayerMove(Player.PLAYER_X, 0, 0)),
-          throwsA(new isInstanceOf<InvalidMoveOutOfTurn>()));
+      try {
+        gameEngine.move(new PlayerMove(Player.PLAYER_X, 0, 0));
+      } on InvalidMove catch(invalidMove) {
+        expect(invalidMove.reason, equals(InvalidMoveReason.OUT_OF_TURN));
+        return;
+      }
+      assert(null == "Excpected InvalidMove");
     });
 
-    test('X Moves To Filled Position', () {
+    test('X Moves To Filled Position Exception', () {
       IGameEngine gameEngine = new BasicGameEngine();
       gameEngine.move(new PlayerMove(Player.PLAYER_X, 0, 0));
       gameEngine.move(new PlayerMove(Player.PLAYER_O, 1, 0));
-      expect(() => gameEngine.move(new PlayerMove(Player.PLAYER_X, 0, 0)),
-          throwsA(new isInstanceOf<InvalidMoveLocation>()));
+      try {
+        gameEngine.move(new PlayerMove(Player.PLAYER_X, 0, 0));
+      } on InvalidMove catch(invalidMove) {
+        expect(invalidMove.reason, equals(InvalidMoveReason.BAD_LOCATION));
+        return;
+      }
+      assert(null == "Excpected InvalidMove");
     });
 
-    test('Foobar', () {
-      expect(()=> throw 'X',
-          throwsA(new isInstanceOf<String>()));
+    test('X Moves On Game Over Exception', () {
+      IGameEngine gameEngine = new BasicGameEngine.fromMatrix(horWinMat1);
+      try {
+        gameEngine.move(new PlayerMove(Player.PLAYER_O, 0, 0));
+      } on InvalidMove catch(invalidMove) {
+        expect(invalidMove.reason, equals(InvalidMoveReason.GAME_OVER));
+        return;
+      }
+      assert(null == "Excpected InvalidMove");
     });
 
   });

@@ -1,25 +1,22 @@
 part of engine;
 
 /// Exception indicating move to location already filled
-class InvalidMoveLocation implements Exception { 
-  String playerMove;
+class InvalidMove implements Exception { 
+  InvalidMove(
+    this.playerMove,
+    this.reason
+  ) {
+  
+  }
+  
+  /// Move that was rejected
+  PlayerMove playerMove;
+  /// Why the move was rejected
+  InvalidMoveReason reason;
 
-  // custom <class InvalidMoveLocation>
-  // end <class InvalidMoveLocation>
-}
-
-/// Exception indicating move by player who just moved
-class InvalidMoveOutOfTurn implements Exception { 
-
-  // custom <class InvalidMoveOutOfTurn>
-  // end <class InvalidMoveOutOfTurn>
-}
-
-/// Exception indicating attempted move when game is complete
-class InvalidMoveGameOver implements Exception { 
-
-  // custom <class InvalidMoveGameOver>
-  // end <class InvalidMoveGameOver>
+  // custom <class InvalidMove>
+  String toString() => 'Invalid Move ${playerMove} reason => $reason';
+  // end <class InvalidMove>
 }
 
 /// Indicates a move of player to specified x,y location
@@ -51,29 +48,11 @@ abstract class IBoard {
 
   // custom <class IBoard>
 
-  bool horizontalWinner(Player player);
-  bool verticalWinner(Player player);
-  bool forwardDiagonalWinner(Player player);
-  bool backDiagonalWinner(Player player);
-  PositionState positionState(int row, int column) =>
-    _positionStates[row][column];
-
-  bool playerHasWon(Player player) =>
-    horizontalWinner(player) ||
-    verticalWinner(player) ||
-    forwardDiagonalWinner(player) ||
-    backDiagonalWinner(player);
-
-  bool get xHasWon => playerHasWon(Player.PLAYER_X);
-  bool get oHasWon => playerHasWon(Player.PLAYER_O);
-  bool get isComplete;
-
+  bool get xHasWon;
+  bool get oHasWon;
+  bool get isGameOver;
+  GameState get gameState;
   void _move(PlayerMove playerMove);
-
-  GameState get gameState =>
-      xHasWon ? GameState.X_WON : (
-          oHasWon ? GameState.Y_WON : (
-              isComplete ? GameState.COMPLETE : GameState.INCOMPLETE));
 
   // end <class IBoard>
 }
@@ -97,20 +76,48 @@ class Board extends IBoard {
   int get gameDim => _gameDim;
   /// Represents the state of each of the positions in the game
   List<List<PositionState>> _positionStates;
+  GameState _gameState;
+  /// State of game - updated on completion of each move
+  GameState get gameState => _gameState;
+  /// Number of slots that are currently empty
+  int _emptySlots;
 
   // custom <class Board>
 
   Board.fromMatrix(List<List<PositionState>> positionStates) : 
     _gameDim = positionStates.length,
-    _positionStates = positionStates {
-    
+    _positionStates = positionStates 
+  {
+    _emptySlots = 0;
+    for(int row = 0; row < _gameDim; row++) {
+      for(int column = 0; column < _gameDim; column++) {
+        if(_positionStates[row][column] == PositionState.EMPTY) {
+          _emptySlots++;
+        }
+      }
+    }
+    _updateGameState();
   }
+
+  PositionState positionState(int row, int column) =>
+    _positionStates[row][column];
 
   /// Set state to cleared board
   void startNewGame() {
-    _positionStates = 
-      new List.filled(_gameDim, 
-          new List.filled(_gameDim, PositionState.EMPTY));
+    if(_positionStates == null) {
+      _positionStates = new List(_gameDim);
+      for(int row = 0; row < _gameDim; row++) {
+        _positionStates[row] = new List.filled(_gameDim, PositionState.EMPTY);
+      }
+    } else {
+      for(int row = 0; row < _gameDim; row++) {
+        for(int column = 0; column < _gameDim; column++) {
+          _positionStates[row][column] = PositionState.EMPTY;
+        }
+      }
+    }
+    _emptySlots = _gameDim * _gameDim;
+    _gameState = GameState.INCOMPLETE;
   }
 
   PositionState _playerTargetState(Player player) =>
@@ -156,17 +163,38 @@ class Board extends IBoard {
     return true;
   }
 
+  bool playerHasWon(Player player) =>
+    horizontalWinner(player) ||
+    verticalWinner(player) ||
+    forwardDiagonalWinner(player) ||
+    backDiagonalWinner(player);
+
+  bool get xHasWon => playerHasWon(Player.PLAYER_X);
+  bool get oHasWon => playerHasWon(Player.PLAYER_O);
+  bool get isGameOver => _gameState != GameState.INCOMPLETE;
+
+  void _updateGameState() {
+    _gameState =
+      xHasWon ? GameState.X_WON : (
+          oHasWon ? GameState.Y_WON : (
+              _emptySlots == 0 ? GameState.COMPLETE : GameState.INCOMPLETE));
+  }
+
   void _move(PlayerMove playerMove) {
     _positionStates[playerMove.row][playerMove.column] = 
       (playerMove.player == Player.PLAYER_X)? PositionState.HAS_X :
-      PositionState.HAS_Y;
+      PositionState.HAS_O;
+    _emptySlots -= 1;
+    _updateGameState();
+    print("Post move state ${gameState}");
+    assert(_emptySlots >= 0);
   }  
 
-  bool get xHasWon => true;
-  bool get oHasWon => false;
-  bool get isComplete => false;
-
-  String toString() => _positionStates.toString();
+  String toString() => '''
+dim: ${_gameDim}
+state: ${_gameState}
+board: ${_positionStates.join('\n')}
+''';
 
   // end <class Board>
 }
@@ -208,6 +236,33 @@ class BasicGameEngine implements IGameEngine {
 
   // custom <class BasicGameEngine>
 
+  BasicGameEngine.fromMatrix(List<List<PositionState>> positionStates) {
+    _board = new Board.fromMatrix(positionStates);
+    if(!_board.isGameOver) {
+      // Determine next player from state of board
+      int countX = 0;
+      int countO = 0;
+      for(int row = 0; row < _gameDim; row++) {
+        for(int column = 0; column < _gameDim; column++) {
+          var value = _positionStates[row][column];
+          if(value == PositionState.HAS_X)
+            countX++;
+          if(value == PositionState.HAS_O)
+            countO++;
+        }
+      }
+
+      if(abs(countX - countO) > 1) {
+        throw InvalidBoard(_board);
+      }
+
+      _nextPlayer = 
+        (countX > countO)? Player.PLAYER_O : Player.PLAYER_X;
+
+      print("Games next $_nextPlayer");
+    }
+  }
+
   PositionState positionState(int row, int column) => 
     _board.positionState(row, column);
 
@@ -217,16 +272,19 @@ class BasicGameEngine implements IGameEngine {
   }
 
   void move(PlayerMove playerMove) {
-    print("move of: ${playerMove}");
+    if(_board.isGameOver) {
+      print("OOPS game over ${_board}");
+      throw new InvalidMove(playerMove, InvalidMoveReason.GAME_OVER);
+    }
 
     if(_nextPlayer != playerMove.player) 
-      throw new InvalidMoveOutOfTurn();
+      throw new InvalidMove(playerMove, InvalidMoveReason.OUT_OF_TURN);
 
     PositionState currentState = 
       _board.positionState(playerMove.row, playerMove.column);
 
     if(currentState != PositionState.EMPTY)
-      throw new InvalidMoveLocation();
+      throw new InvalidMove(playerMove, InvalidMoveReason.BAD_LOCATION);
 
     _board._move(playerMove);
     _nextPlayer = (_nextPlayer == Player.PLAYER_X)?
@@ -234,6 +292,8 @@ class BasicGameEngine implements IGameEngine {
   }
 
   GameState get gameState => _board.gameState;
+
+  String toString() => _board.toString();
 
   // end <class BasicGameEngine>
 }
