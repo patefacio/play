@@ -1,7 +1,10 @@
 import 'package:unittest/unittest.dart';
-import 'package:tic_tac_toe/engine.dart';
+import 'package:tic_tac_toe/tic_tac_toe.dart';
 import 'input_games.dart';
 
+////////////////////////////////////////////////////////////////////////////////
+// Tests to ensure the basics of the tic tac toe board work
+////////////////////////////////////////////////////////////////////////////////
 main() {
 
   group('Basic Board Categorization Tests', () {

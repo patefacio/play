@@ -20,7 +20,7 @@ main() {
       component('tic_tac_toe')
     ]
     ..libraries = [
-      library('engine')
+      library('tic_tac_toe')
       ..imports = [
       ]
       ..includeLogger = true
@@ -57,7 +57,7 @@ as opposed to CAT, since CAT state means the board is filled.
         ..values = [ id('win'), id('lose'), id('draw')],
       ]
       ..parts = [
-        part('engine')
+        part('tic_tac_toe')
         ..classes = [
           class_('invalid_undo')
           ..includeCustom = false
@@ -126,6 +126,12 @@ provided and not a valid option.''',
           class_('i_board')
           ..doc = 'Interface to a tic-tac-toe board'
           ..isAbstract = true,
+          class_('i_game_engine')
+          ..doc = 'Interface to the game play engine'
+          ..isAbstract = true,
+        ],
+        part('engine')
+        ..classes = [
           class_('board')
           ..defaultMemberAccess = IA
           ..doc = 'Implementation of tick tack toe board'
@@ -150,11 +156,7 @@ provided and not a valid option.''',
             ..doc = 'Number of slots that are currently empty'
             ..access = RO
             ..type = 'int'
-          ]
-          ,
-          class_('i_game_engine')
-          ..doc = 'Interface to the game play engine'
-          ..isAbstract = true,
+          ],          
           class_('basic_game_engine')
           ..defaultMemberAccess = IA
           ..doc = 'One approach to playing the game'

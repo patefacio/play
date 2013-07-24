@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+    <!-- custom <ticTacToe head> -->
+
+    <link rel="import" href="tic_tac_toe_row.html">
+    
+    <!-- end <ticTacToe head> -->
+    
+  </head>
+  <body>
+    <element name="x-tic-tac-toe" extends="div" constructor="TicTacToe" apply-author-styles>
+      <template>
+        
+        <!-- custom <ticTacToe template> -->
+        <style>
+          [is=x-tic-tac-toe-row] {
+          border: red 2px;
+          }
+        </style>
+
+        <x-tic-tac-toe-row>
+        </x-tic-tac-toe-row>
+      
+        <x-tic-tac-toe-row>
+        </x-tic-tac-toe-row>
+       
+        <x-tic-tac-toe-row>
+        </x-tic-tac-toe-row>
+
+        <!-- end <ticTacToe template> -->
+        
+      </template>
+      <script type="application/dart" src="tic_tac_toe.dart"></script>
+    </element>
+  </body>
+</html>

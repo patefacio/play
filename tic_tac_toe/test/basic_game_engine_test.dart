@@ -1,7 +1,11 @@
 import 'package:unittest/unittest.dart';
-import 'package:tic_tac_toe/engine.dart';
+import 'package:tic_tac_toe/tic_tac_toe.dart';
 import 'input_games.dart';
 
+////////////////////////////////////////////////////////////////////////////////
+// Tests to ensure the game engine deals with moves and interfaces to the tic
+// tac toe board
+////////////////////////////////////////////////////////////////////////////////
 main() {
 
   const pos00  = const BoardLocation(0, 0);

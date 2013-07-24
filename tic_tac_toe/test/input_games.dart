@@ -1,4 +1,4 @@
-import 'package:tic_tac_toe/engine.dart';
+import 'package:tic_tac_toe/tic_tac_toe.dart';
 
 String boardMatrixToString(List<List<PositionState>> bm) {
   return "\n${bm.join('\n')}";

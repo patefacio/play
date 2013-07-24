@@ -1,16 +1,18 @@
 import 'package:unittest/unittest.dart';
-import 'package:tic_tac_toe/engine.dart';
+import 'package:tic_tac_toe/tic_tac_toe.dart';
 import "package:logging/logging.dart";
 import "package:logging_handlers/logging_handlers_shared.dart";
 import 'input_games.dart';
 
-/// This shows that if a human is X and X goes first, no matter where X goes the
-/// computer will win. This does not show the computer is unbeatable in under
-/// any circumstance, just over the set of games that are started from
-/// scratch. The IGameEngine interface was designed to accept any valid game, so
-/// a larger test would be - /For any valid board state in which X just moved/
-/// ensure O will not lose. This would include board states in which the
-/// computer performed a bad move, which is not tested below.
+////////////////////////////////////////////////////////////////////////////////
+// This shows that if a human is X and X goes first, no matter where X goes the
+// computer will win. This does not show the computer is unbeatable in under
+// any circumstance, just over the set of games that are started from
+// scratch. The IGameEngine interface was designed to accept any valid game, so
+// a larger test would be - /For any valid board state in which X just moved/
+// ensure O will not lose. This would include board states in which the
+// computer performed a bad move, which is not tested below.
+////////////////////////////////////////////////////////////////////////////////
 main() {
 
   final _logger = new Logger("Unbeatable");

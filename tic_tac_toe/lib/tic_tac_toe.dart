@@ -1,10 +1,11 @@
-library engine;
+library tic_tac_toe;
 
 import "package:logging/logging.dart";
 import "package:logging_handlers/logging_handlers_shared.dart";
-part "src/engine/engine.dart";
+part "src/tic_tac_toe/tic_tac_toe.dart";
+part "src/tic_tac_toe/engine.dart";
 
-final _logger = new Logger("engine");
+final _logger = new Logger("tic_tac_toe");
 
 /// Reason for move failing
 class InvalidMoveReason { 
@@ -194,6 +195,6 @@ class Outcome {
 
 }
 
-// custom <library engine>
-// end <library engine>
+// custom <library tic_tac_toe>
+// end <library tic_tac_toe>
 
