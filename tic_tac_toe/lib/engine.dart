@@ -1,6 +1,10 @@
 library engine;
 
+import "package:logging/logging.dart";
+import "package:logging_handlers/logging_handlers_shared.dart";
 part "src/engine/engine.dart";
+
+final _logger = new Logger("engine");
 
 /// Reason for move failing
 class InvalidMoveReason { 

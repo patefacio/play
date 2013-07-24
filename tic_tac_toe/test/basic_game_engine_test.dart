@@ -64,20 +64,13 @@ main() {
       assert(null == "Excpected InvalidMove");
     });
 
-    test('some move', () {
-
+    test('Games end in CAT', () {
       xTurnNext.forEach((boardMatrix) {
-        print("Starting from ${boardMatrixToString(boardMatrix)}");
         IGameEngine engine = new BasicGameEngine.fromMatrix(boardMatrix);
-        while(!engine.isGameOver) {
-          var move = engine.engineMove();
-          print("Move is ${move}");
-          print(engine);
-        }
-
-        print("Final state is:\n$engine");
+        while(!engine.isGameOver)
+          engine.engineMove();
+        expect(engine.isCatGame, equals(true));
       });
-
     });
 
 

@@ -7,6 +7,13 @@ class InvalidUndo {
   // end <class InvalidUndo>
 }
 
+/// Board is in invalid state
+class InvalidBoard { 
+
+  // custom <class InvalidBoard>
+  // end <class InvalidBoard>
+}
+
 /// Exception indicating move to location already filled
 class InvalidMove implements Exception { 
   InvalidMove(
@@ -24,6 +31,36 @@ class InvalidMove implements Exception {
   // custom <class InvalidMove>
   String toString() => 'Invalid Move ${playerMove} reason => $reason';
   // end <class InvalidMove>
+}
+
+/// Accumulation of counts of the three possible states on a board
+class StateCounts { 
+  int xCount = 0;
+  int oCount = 0;
+  int emptyCount = 0;
+
+  // custom <class StateCounts>
+
+  StateCounts(List<List<PositionState>> states) {
+    states.forEach((row) =>
+        row.forEach((state) {
+          switch(state) {
+            case PositionState.EMPTY:
+              emptyCount++;
+              break;
+            case PositionState.HAS_X:
+              xCount++;
+              break;
+            case PositionState.HAS_O:
+              oCount++;
+              break;
+            default:
+              assert("Invalid state ${states[row][column]}" == null);
+          }
+        }));
+  }
+
+  // end <class StateCounts>
 }
 
 /// Row and column indentifying location on board
@@ -59,7 +96,10 @@ class PlayerMove {
 
   // custom <class PlayerMove>
 
+  /// Row of the move
   int get row => location.row;
+
+  /// Column of the move
   int get column => location.column;
 
   String toString() => '${player} move => (${row}, ${column})';
@@ -72,14 +112,35 @@ abstract class IBoard {
 
   // custom <class IBoard>
 
+  /// Returns true if x has won the game
   bool get xHasWon;
+
+  /// Returns true if o has won the game
   bool get oHasWon;
+
+  /// Returns true if this is a cat game. Note it is only a CAT game at the end,
+  /// prior to that it is simply an incomplete game even if two bright players
+  /// guarantee it will end in CAT.
   bool get isCatGame;
+
+  /// The game has ended in a win or cat game
   bool get isGameOver;
 
+  /// Returns true of player has one the game
+  bool playerHasWon(Player player);
+
+  /// Returns a list of potential moves available on the board
   List<BoardLocation> get potentialMoves;
+
+  /// Returns the current state of the game
   GameState get gameState;
+
+  /// Performs the specified move
   void _move(PlayerMove playerMove);
+
+  /// Undoes the specified move. If the move specified is not one that exists on
+  /// the board an InvalidUndo exception will be thrown
+  void _undo(PlayerMove playerMove);
 
   // end <class IBoard>
 }
@@ -112,18 +173,24 @@ class Board extends IBoard {
 
   // custom <class Board>
 
+  /// Deep copy the matrix
+  static List<List<PositionState>> deepCopy(List<List<PositionState>> src) =>
+    new List.generate(src.length, (i) => new List.from(src[i]));
+
+  /// Create the board from the specified matrix. 
+  /// 
+  /// If the board is invalid InvalidBoard will be thrown
   Board.fromMatrix(List<List<PositionState>> positionStates) : 
     _gameDim = positionStates.length,
-    _positionStates = positionStates 
+    _positionStates = deepCopy(positionStates)
   {
-    _emptySlots = 0;
-    for(int row = 0; row < _gameDim; row++) {
-      for(int column = 0; column < _gameDim; column++) {
-        if(_positionStates[row][column] == PositionState.EMPTY) {
-          _emptySlots++;
-        }
-      }
+    StateCounts counts = new StateCounts(positionStates);
+
+    if((counts.xCount - counts.oCount).abs() > 1) {
+      throw InvalidBoard(positionStates);
     }
+
+    _emptySlots = counts.emptyCount;
     _updateGameState();
   }
 
@@ -148,16 +215,10 @@ class Board extends IBoard {
   /// Set state to cleared board
   void startNewGame() {
     if(_positionStates == null) {
-      _positionStates = new List(_gameDim);
-      for(int row = 0; row < _gameDim; row++) {
-        _positionStates[row] = new List.filled(_gameDim, PositionState.EMPTY);
-      }
+      _positionStates = new List.generate(_gameDim, 
+          (_) => new List.filled(_gameDim, PositionState.EMPTY));
     } else {
-      for(int row = 0; row < _gameDim; row++) {
-        for(int column = 0; column < _gameDim; column++) {
-          _positionStates[row][column] = PositionState.EMPTY;
-        }
-      }
+      _positionStates.forEach((row) => row.fillRange(0, _gameDim, PositionState.EMPTY));
     }
     _emptySlots = _gameDim * _gameDim;
     _gameState = GameState.INCOMPLETE;
@@ -217,6 +278,7 @@ class Board extends IBoard {
   bool get isCatGame => _gameState == GameState.CAT_GAME;
   bool get isGameOver => _gameState != GameState.INCOMPLETE;
 
+  /// Sets the game state based on current board status
   void _updateGameState() {
     _gameState =
       xHasWon ? GameState.X_WON : (
@@ -273,6 +335,9 @@ abstract class IGameEngine {
     return result;
   }
 
+  /// Create a move for the current user destined for location
+  PlayerMove createMove(BoardLocation location);
+
   /// Perform a move and return state of game post move. May be used by "manual"
   /// player
   GameState makeMove(PlayerMove move);
@@ -287,6 +352,9 @@ abstract class IGameEngine {
   Player get nextPlayer;
 
   bool get isGameOver;
+
+  /// Returns list of all empty slots
+  List<BoardLocation> get potentialMoves;
 
   // end <class IGameEngine>
 }
@@ -315,29 +383,15 @@ class BasicGameEngine extends IGameEngine {
     final gameDim = _board._gameDim;
     final states = _board._positionStates;
     if(!_board.isGameOver) {
-      // Determine next player from state of board
-      int countX = 0;
-      int countO = 0;
-      for(int row = 0; row < gameDim; row++) {
-        for(int column = 0; column < gameDim; column++) {
-          var value = states[row][column];
-          if(value == PositionState.HAS_X)
-            countX++;
-          if(value == PositionState.HAS_O)
-            countO++;
-        }
-      }
 
-      if((countX - countO).abs() > 1) {
-        throw InvalidBoard(_board);
-      }
+      StateCounts counts = new StateCounts(states);
 
-      if(countX == countO) {
+      if(counts.xCount == counts.oCount) {
         _nextPlayer = (whoMovesNext != null)? whoMovesNext: Player.PLAYER_X;
       } else {
 
         _nextPlayer = 
-          (countX > countO)? Player.PLAYER_O : Player.PLAYER_X;
+          (counts.xCount > counts.oCount)? Player.PLAYER_O : Player.PLAYER_X;
 
         if(whoMovesNext != null && whoMovesNext != _nextPlayer) {
           throw InvalidBoard(_board);          
@@ -355,11 +409,11 @@ class BasicGameEngine extends IGameEngine {
   PositionState positionState(BoardLocation location) => 
     _board.positionState(location);
 
-  PlayerMove _createMove(BoardLocation location) => 
+  PlayerMove createMove(BoardLocation location) => 
     new PlayerMove(_nextPlayer, location);
 
   dynamic _tryMove(BoardLocation location, dynamic thenWhat()) {
-    var someMove = _createMove(location);
+    var someMove = createMove(location);
     makeMove(someMove);
     dynamic result;
     try {
@@ -399,18 +453,20 @@ class BasicGameEngine extends IGameEngine {
 
   PlayerMove nextMove() {
     var locations = _board.potentialMoves;
-    return _createMove(
+    return createMove(
         _board.potentialMoves.firstWhere((location) => atLeastADraw(location),
             orElse: () {
+              _logger.warning("Potential loss ahead ${_board}");
               return locations.first;
             }));
   }
 
-  void _switchPlayers() {
-    _nextPlayer = (_nextPlayer == Player.PLAYER_X)?
-      Player.PLAYER_O : Player.PLAYER_X;
-  }
 
+  /// Replace current player with opponent
+  _switchPlayers() => _nextPlayer = _nextPlayer.opponent;
+
+  /// Make the move specified by [playerMove], update the state of the board and
+  /// adjust player.
   GameState makeMove(PlayerMove playerMove) {
     if(_board.isGameOver) {
       throw new InvalidMove(playerMove, InvalidMoveReason.GAME_OVER);
@@ -432,7 +488,14 @@ class BasicGameEngine extends IGameEngine {
     return gameState;
   }
 
+  /// Undo the [move] specified and adjust the player. Will throw if [move] not
+  /// present on board
   void undoMove(PlayerMove move) {
+
+    // Can only undo move of last players move, not next players
+    if(move.player == _nextPlayer)
+      throw InvalidUndoOperation();
+
     _board._undo(move);
     _switchPlayers();
   }
@@ -441,8 +504,9 @@ class BasicGameEngine extends IGameEngine {
   bool playerHasWon(Player player) => _board.playerHasWon(player);
   bool get isCatGame => _board.isCatGame;
   bool get isGameOver => _board.isGameOver;
-
+  List<BoardLocation> get potentialMoves => _board.potentialMoves;
   String toString() => _board.toString();
+  int get emptySlots => _board._emptySlots;
 
   // end <class BasicGameEngine>
 }
