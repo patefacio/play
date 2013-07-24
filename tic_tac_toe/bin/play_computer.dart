@@ -2,9 +2,9 @@ import 'dart:io';
 import 'package:tic_tac_toe/tic_tac_toe.dart';
 
 ////////////////////////////////////////////////////////////////////////////////
-// Basic loop allowig user to play the computer. User starts off first as player
-// X. Note: this must be run in non-checked mode since readLineSync causes
-// issues in checked.
+// Basic loop allowing user to play the computer. User starts off first as
+// player X. Note: this must be run in non-checked mode since readLineSync
+// causes issues in checked.
 ////////////////////////////////////////////////////////////////////////////////
 main() {
   IGameEngine engine = new BasicGameEngine();
@@ -42,4 +42,7 @@ main() {
           "Pls enter number between 1 and 9 - try again");
     }
   }
+
+  if(engine.board.oHasWon) 
+    print("Next time how about Global Thermonuclear War?");
 }

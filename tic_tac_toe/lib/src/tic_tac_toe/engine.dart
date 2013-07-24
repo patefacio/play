@@ -321,6 +321,7 @@ class BasicGameEngine extends IGameEngine {
     _switchPlayers();
   }
 
+  IBoard get board => _board;
   GameState get gameState => _board.gameState;
   bool playerHasWon(Player player) => _board.playerHasWon(player);
   bool get isCatGame => _board.isCatGame;
