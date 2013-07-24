@@ -195,9 +195,5 @@ class Outcome {
 }
 
 // custom <library engine>
-main() {
-  BasicGameEngine newGame = new BasicGameEngine();
-  print("${newGame._board._positionStates}");
-}
 // end <library engine>
 

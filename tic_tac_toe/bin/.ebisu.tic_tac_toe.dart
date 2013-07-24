@@ -6,9 +6,19 @@ import "package:pathos/path.dart" as path;
 main() {
   Options options = new Options();
   String here = path.dirname(path.absolute(options.script));
-  String topDir = "${here}/../../tic_tac_toe";
+  String rootDir = "${here}/../..";
+  String ticTacToeDir = "${rootDir}/tic_tac_toe";
 
-  System tic_tac_toe = system('tic_tac_toe')
+  ComponentLibrary lib = componentLibrary('tic_tac_toe')
+    ..doc = 'Simple tic tac toe game'
+    ..rootPath = rootDir
+    ..examples = [
+      example(id('basic_game'))
+    ]
+    ..components = [
+      component('tic_tac_toe_row'),
+      component('tic_tac_toe')
+    ]
     ..libraries = [
       library('engine')
       ..imports = [
@@ -50,9 +60,13 @@ as opposed to CAT, since CAT state means the board is filled.
         part('engine')
         ..classes = [
           class_('invalid_undo')
-          ..doc = 'Attempted an undo move that does not match',
+          ..includeCustom = false
+          ..doc = 'Attempted an undo move that does not match move',
           class_('invalid_board')
-          ..doc = 'Board is in invalid state',
+          ..includeCustom = false
+          ..doc = '''Board is in invalid state.  This can be caused by providing an invalid board
+matrix, for example if there are too many X or Os or if [whoMovesNext] is
+provided and not a valid option.''',
           class_('invalid_move')
           ..doc = 'Exception indicating move to location already filled'
           ..implement = ['Exception']
@@ -159,9 +173,7 @@ as opposed to CAT, since CAT state means the board is filled.
           ]
         ]
       ]
-    ]
-    ..rootPath = topDir;
+    ];
 
-  tic_tac_toe.generate();
-
+  lib.generate();
 }

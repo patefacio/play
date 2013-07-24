@@ -1,17 +1,13 @@
 part of engine;
 
-/// Attempted an undo move that does not match
+/// Attempted an undo move that does not match move
 class InvalidUndo { 
-
-  // custom <class InvalidUndo>
-  // end <class InvalidUndo>
 }
 
-/// Board is in invalid state
+/// Board is in invalid state.  This can be caused by providing an invalid board
+/// matrix, for example if there are too many X or Os or if [whoMovesNext] is
+/// provided and not a valid option.
 class InvalidBoard { 
-
-  // custom <class InvalidBoard>
-  // end <class InvalidBoard>
 }
 
 /// Exception indicating move to location already filled
@@ -179,7 +175,9 @@ class Board extends IBoard {
 
   /// Create the board from the specified matrix. 
   /// 
-  /// If the board is invalid InvalidBoard will be thrown
+  /// If the board is invalid InvalidBoard will be thrown. Deep copy is
+  /// performed on [positionStates] since important to ensure data belongs to
+  /// instance
   Board.fromMatrix(List<List<PositionState>> positionStates) : 
     _gameDim = positionStates.length,
     _positionStates = deepCopy(positionStates)
@@ -194,6 +192,7 @@ class Board extends IBoard {
     _updateGameState();
   }
 
+  /// Retrieve state for given position on board
   PositionState positionState(BoardLocation location) =>
     _positionStates[location.row][location.column];
 
@@ -218,12 +217,14 @@ class Board extends IBoard {
       _positionStates = new List.generate(_gameDim, 
           (_) => new List.filled(_gameDim, PositionState.EMPTY));
     } else {
-      _positionStates.forEach((row) => row.fillRange(0, _gameDim, PositionState.EMPTY));
+      _positionStates.forEach((row) => 
+          row.fillRange(0, _gameDim, PositionState.EMPTY));
     }
     _emptySlots = _gameDim * _gameDim;
     _gameState = GameState.INCOMPLETE;
   }
 
+  /// Returns expected state of position if [player] is there
   PositionState _playerTargetState(Player player) =>
     (player == Player.PLAYER_X) ? 
     PositionState.HAS_X : PositionState.HAS_O;
@@ -286,6 +287,7 @@ class Board extends IBoard {
               _emptySlots == 0 ? GameState.CAT_GAME : GameState.INCOMPLETE));
   }
 
+  /// Move the player to the location specified in the [playerMove]
   void _move(PlayerMove playerMove) {
     _positionStates[playerMove.row][playerMove.column] = 
       (playerMove.player == Player.PLAYER_X)? PositionState.HAS_X :
@@ -295,6 +297,10 @@ class Board extends IBoard {
     assert(_emptySlots >= 0);
   }
 
+  /// Undo a specific move. NOTE: Checking is done to ensure the undone move
+  /// exists and belongs to the player of the last move. However, no caching of
+  /// moves is done, so it is possible to abuse [_undo] and undo a different
+  /// move of the last player than his actual last move.
   void _undo(PlayerMove playerMove) {
     final PositionState targetState = _playerTargetState(playerMove.player);
     if(_positionStates[playerMove.row][playerMove.column] != targetState) {
@@ -307,9 +313,8 @@ class Board extends IBoard {
   }
 
   String toString() => '''
-dim: ${_gameDim}
-state: ${_gameState}
 board: \n${_positionStates.join('\n')}
+state: ${_gameState}
 ''';
 
   // end <class Board>
@@ -320,7 +325,6 @@ abstract class IGameEngine {
 
   // custom <class IGameEngine>
 
-  
   /// Find the state of a position on the board
   PositionState positionState(BoardLocation location);
 
@@ -351,6 +355,7 @@ abstract class IGameEngine {
   /// Based on current state of game, who should move next
   Player get nextPlayer;
 
+  /// Returns true if game is over
   bool get isGameOver;
 
   /// Returns list of all empty slots
