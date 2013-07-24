@@ -66,6 +66,13 @@ class Player {
   }
 
 
+  // custom <enum Player>
+
+  Player get opponent => (this == PLAYER_X) ?
+    PLAYER_O : PLAYER_X;
+
+  // end <enum Player>
+
 }
 
 /// Does the position contain x, o, or nothing
@@ -103,23 +110,24 @@ class PositionState {
 
 }
 
-/// Has x won, has y won, is the game incomplete, or is it complete with no winner.
-/// This is a mutually exclusive state, so CAT game is not used. However, a COMPLETE
-/// game implies a CAT game. An incomplete game might be considered a CAT game if
-/// some intelligence could determine that the two intelligent players will
-/// definitely end in a draw.
+/// Has x won, has y won, is the game incomplete, or is it complete with no winner
+/// (a CAT game).  This is a mutually exclusive state. 
+/// 
+/// An incomplete game might be considered a CAT game if one assumed two intelligent
+/// players will definitely end it in a draw, but that is still an INCOMPLETE game
+/// as opposed to CAT, since CAT state means the board is filled.
 /// 
 class GameState { 
   static const X_WON = const GameState._(0);
   static const O_WON = const GameState._(1);
   static const INCOMPLETE = const GameState._(2);
-  static const COMPLETE = const GameState._(3);
+  static const CAT_GAME = const GameState._(3);
 
   static get values => [
     X_WON,
     O_WON,
     INCOMPLETE,
-    COMPLETE
+    CAT_GAME
   ];
 
   final int value;
@@ -131,7 +139,7 @@ class GameState {
       case X_WON: return "X_WON";
       case O_WON: return "O_WON";
       case INCOMPLETE: return "INCOMPLETE";
-      case COMPLETE: return "COMPLETE";
+      case CAT_GAME: return "CAT_GAME";
     }
   }
 
@@ -140,7 +148,42 @@ class GameState {
       case "X_WON": return X_WON;
       case "O_WON": return O_WON;
       case "INCOMPLETE": return INCOMPLETE;
-      case "COMPLETE": return COMPLETE;
+      case "CAT_GAME": return CAT_GAME;
+    }
+  }
+
+
+}
+
+/// Win, lose or draw - from the perspective of one or other user
+class Outcome { 
+  static const WIN = const Outcome._(0);
+  static const LOSE = const Outcome._(1);
+  static const DRAW = const Outcome._(2);
+
+  static get values => [
+    WIN,
+    LOSE,
+    DRAW
+  ];
+
+  final int value;
+
+  const Outcome._(this.value);
+
+  String toString() { 
+    switch(this) { 
+      case WIN: return "WIN";
+      case LOSE: return "LOSE";
+      case DRAW: return "DRAW";
+    }
+  }
+
+  static Outcome fromString(String s) { 
+    switch(s) { 
+      case "WIN": return WIN;
+      case "LOSE": return LOSE;
+      case "DRAW": return DRAW;
     }
   }
 
