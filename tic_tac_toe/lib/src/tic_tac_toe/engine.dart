@@ -44,7 +44,7 @@ class Board extends IBoard {
     StateCounts counts = new StateCounts(positionStates);
 
     if((counts.xCount - counts.oCount).abs() > 1) {
-      throw InvalidBoard(positionStates);
+      throw new InvalidBoard("Invalid board $positionStates");
     }
 
     _emptySlots = counts.emptyCount;
@@ -165,7 +165,7 @@ class Board extends IBoard {
     if(_positionStates[playerMove.row][playerMove.column] != targetState) {
       throw new 
        InvalidUndoOperation(
-           "Invalid undo $playerMove state mismatch on board $_board");
+           "Invalid undo $playerMove state mismatch on board $_positionStates");
     } else {
       _positionStates[playerMove.row][playerMove.column] = PositionState.EMPTY;
       _emptySlots++;
@@ -217,7 +217,8 @@ class BasicGameEngine extends IGameEngine {
           (counts.xCount > counts.oCount)? Player.PLAYER_O : Player.PLAYER_X;
 
         if(whoMovesNext != null && whoMovesNext != _nextPlayer) {
-          throw InvalidBoard(_board);          
+          throw new 
+            InvalidBoard("Invalid board, $whoMovesNext not next: $_board");
         }
       }
     }
@@ -279,8 +280,6 @@ class BasicGameEngine extends IGameEngine {
         });
       }
     });
-
-    return result;
   }
 
   /// Simple heuristic is to always just choose the first location that is at

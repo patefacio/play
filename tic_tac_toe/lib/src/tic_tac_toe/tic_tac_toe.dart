@@ -16,6 +16,14 @@ class InvalidUndoOperation {
 /// matrix, for example if there are too many X or Os or if [whoMovesNext] is
 /// provided and not a valid option.
 class InvalidBoard { 
+  InvalidBoard(
+    this.message
+  ) {
+  
+  }
+  
+  /// Info about the invalid undo
+  String message;
 }
 
 /// Exception indicating move to location already filled
@@ -194,7 +202,7 @@ abstract class IGameEngine {
   List<BoardLocation> get potentialMoves;
 
   /// Reset the board to the original state
-  void startNewGame(Player firstMover);
+  void startNewGame([Player firstMover]);
 
   // end <class IGameEngine>
 }

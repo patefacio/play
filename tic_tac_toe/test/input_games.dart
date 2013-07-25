@@ -143,4 +143,15 @@ final g1 = [
 ];
 
 
+final oTurn = [
+    [ PositionState.HAS_X, PositionState.EMPTY, PositionState.EMPTY, ],
+    [ PositionState.HAS_X, PositionState.HAS_O, PositionState.EMPTY, ],
+    [ PositionState.EMPTY, PositionState.EMPTY, PositionState.EMPTY, ],
+];
+
+final tooManyX = [
+    [ PositionState.HAS_X, PositionState.EMPTY, PositionState.HAS_X, ],
+    [ PositionState.HAS_X, PositionState.HAS_O, PositionState.EMPTY, ],
+    [ PositionState.EMPTY, PositionState.EMPTY, PositionState.EMPTY, ],
+];
 

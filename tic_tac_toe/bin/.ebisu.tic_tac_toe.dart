@@ -68,7 +68,12 @@ as opposed to CAT, since CAT state means the board is filled.
           ..includeCustom = false
           ..doc = '''Board is in invalid state.  This can be caused by providing an invalid board
 matrix, for example if there are too many X or Os or if [whoMovesNext] is
-provided and not a valid option.''',
+provided and not a valid option.'''
+          ..members = [
+            member('message')
+            ..doc = 'Info about the invalid undo'
+            ..ctors = [''],
+          ],
           class_('invalid_move')
           ..doc = 'Exception indicating move to location already filled'
           ..implement = ['Exception']
