@@ -1,7 +1,15 @@
 part of tic_tac_toe;
 
 /// Attempted an undo move that does not match move
-class InvalidUndo { 
+class InvalidUndoOperation { 
+  InvalidUndoOperation(
+    this.message
+  ) {
+  
+  }
+  
+  /// Info about the invalid undo
+  String message;
 }
 
 /// Board is in invalid state.  This can be caused by providing an invalid board
@@ -131,6 +139,9 @@ abstract class IBoard {
   /// Returns the current state of the game
   GameState get gameState;
 
+  /// Dimensions of the board
+  int get gameDim;
+
   /// Performs the specified move
   void _move(PlayerMove playerMove);
 
@@ -182,9 +193,11 @@ abstract class IGameEngine {
   /// Returns list of all empty slots
   List<BoardLocation> get potentialMoves;
 
+  /// Reset the board to the original state
+  void startNewGame(Player firstMover);
+
   // end <class IGameEngine>
 }
-
 // custom <part tic_tac_toe>
 // end <part tic_tac_toe>
 

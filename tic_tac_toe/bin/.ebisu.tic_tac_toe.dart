@@ -59,9 +59,14 @@ as opposed to CAT, since CAT state means the board is filled.
       ..parts = [
         part('tic_tac_toe')
         ..classes = [
-          class_('invalid_undo')
+          class_('invalid_undo_operation')
           ..includeCustom = false
-          ..doc = 'Attempted an undo move that does not match move',
+          ..doc = 'Attempted an undo move that does not match move'
+          ..members = [
+            member('message')
+            ..doc = 'Info about the invalid undo'
+            ..ctors = [''],
+          ],
           class_('invalid_board')
           ..includeCustom = false
           ..doc = '''Board is in invalid state.  This can be caused by providing an invalid board

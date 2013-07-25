@@ -163,7 +163,9 @@ class Board extends IBoard {
   void _undo(PlayerMove playerMove) {
     final PositionState targetState = _playerTargetState(playerMove.player);
     if(_positionStates[playerMove.row][playerMove.column] != targetState) {
-      throw new InvalidUndoOperation();
+      throw new 
+       InvalidUndoOperation(
+           "Invalid undo $playerMove state mismatch on board $_board");
     } else {
       _positionStates[playerMove.row][playerMove.column] = PositionState.EMPTY;
       _emptySlots++;
@@ -221,18 +223,20 @@ class BasicGameEngine extends IGameEngine {
     }
   }
 
+  /// Construct a game engine from 2D matrix of position states. If there are an
+  /// equal number of X and O then you can specify [whoMovesNext]. 
   BasicGameEngine.fromMatrix(List<List<PositionState>> positionStates,
                              [ Player whoMovesNext ]) {
     _board = new Board.fromMatrix(positionStates);
     _determineNextPlayer(whoMovesNext);
   }
 
-  PositionState positionState(BoardLocation location) => 
-    _board.positionState(location);
-
+  /// Create a move for the current player destined for [location]
   PlayerMove createMove(BoardLocation location) => 
     new PlayerMove(_nextPlayer, location);
 
+  /// Attempts to move to location and after the move calls [thenWhat]. After
+  /// the move the effects of it are undone.
   dynamic _tryMove(BoardLocation location, dynamic thenWhat()) {
     var someMove = createMove(location);
     makeMove(someMove);
@@ -245,6 +249,13 @@ class BasicGameEngine extends IGameEngine {
     return result;
   }
 
+  /// For a given [location] determines if after moving the [nextPlayer] there,
+  /// that player will get at least a draw. The idea is: move to [location],
+  /// then have the opponent try to move to each spot in turn. At each of his
+  /// spots we evaluate all of our next moves to see what locations provide
+  /// [atLeastADraw]. If after this move, for all positions of our opponent we
+  /// can find at least one place to go to force a draw then we can achieve at
+  /// least a draw.
   bool atLeastADraw(BoardLocation location, [int i = 0]) {
     var me = _nextPlayer;
 
@@ -272,6 +283,11 @@ class BasicGameEngine extends IGameEngine {
     return result;
   }
 
+  /// Simple heuristic is to always just choose the first location that is at
+  /// least a draw. This will not necessarily be the best move - but it will
+  /// ensure that a complete game against the engine will result in a draw or
+  /// win for the engine. To enhance more aggressively invest in choosing the
+  /// best among all potentialMoves that are at least a draw.
   PlayerMove nextMove() {
     var locations = _board.potentialMoves;
     return createMove(
@@ -289,15 +305,13 @@ class BasicGameEngine extends IGameEngine {
   /// Make the move specified by [playerMove], update the state of the board and
   /// adjust player.
   GameState makeMove(PlayerMove playerMove) {
-    if(_board.isGameOver) {
+    if(_board.isGameOver) 
       throw new InvalidMove(playerMove, InvalidMoveReason.GAME_OVER);
-    }
 
     if(_nextPlayer != playerMove.player) 
       throw new InvalidMove(playerMove, InvalidMoveReason.OUT_OF_TURN);
 
-    PositionState currentState = 
-      _board.positionState(playerMove.location);
+    PositionState currentState = _board.positionState(playerMove.location);
 
     if(currentState != PositionState.EMPTY)
       throw new InvalidMove(playerMove, InvalidMoveReason.BAD_LOCATION);
@@ -315,20 +329,32 @@ class BasicGameEngine extends IGameEngine {
 
     // Can only undo move of last players move, not next players
     if(move.player == _nextPlayer)
-      throw InvalidUndoOperation();
+      throw new InvalidUndoOperation("Invalid $move out of order undo");
 
     _board._undo(move);
     _switchPlayers();
   }
 
+  int get gameDim => _board.gameDim;
   IBoard get board => _board;
   GameState get gameState => _board.gameState;
   bool playerHasWon(Player player) => _board.playerHasWon(player);
   bool get isCatGame => _board.isCatGame;
   bool get isGameOver => _board.isGameOver;
+  PositionState positionState(BoardLocation location) => 
+    _board.positionState(location);
   List<BoardLocation> get potentialMoves => _board.potentialMoves;
-  String toString() => _board.toString();
+  String toString() => '''
+${_board.toString()}
+next: ${nextPlayer}
+''';
   int get emptySlots => _board._emptySlots;
+
+  void startNewGame([Player firstMover = Player.PLAYER_X]) {
+    _nextPlayer = (firstMover != null)? firstMover : Player.PLAYER_X;
+    _board.startNewGame();
+  }
+
 
   // end <class BasicGameEngine>
 }

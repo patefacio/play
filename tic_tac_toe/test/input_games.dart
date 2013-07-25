@@ -1,9 +1,11 @@
 import 'package:tic_tac_toe/tic_tac_toe.dart';
 
+/// Display board matrix more legibly than default
 String boardMatrixToString(List<List<PositionState>> bm) {
   return "\n${bm.join('\n')}";
 }
 
+/// Transpose a matrix of positions
 List<List<PositionState>> transpose(List<List<PositionState>> original) {
   final int dim = original.length;
   List<List<PositionState>> result = new List<List<PositionState>>(dim);
@@ -16,6 +18,7 @@ List<List<PositionState>> transpose(List<List<PositionState>> original) {
   return result;
 }
 
+/// Return new matrix where all X's are O's and vice versa
 List<List<PositionState>> swapPlayers(List<List<PositionState>> original) {
   final int dim = original.length;
   List<List<PositionState>> result = new List<List<PositionState>>(dim);
