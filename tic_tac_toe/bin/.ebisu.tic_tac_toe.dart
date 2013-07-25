@@ -52,9 +52,6 @@ as opposed to CAT, since CAT state means the board is filled.
           id('x_won'), id('o_won'), id('incomplete'),
           id('cat_game'),
         ],
-        enum_('outcome')
-        ..doc = 'Win, lose or draw - from the perspective of one or other user'
-        ..values = [ id('win'), id('lose'), id('draw')],
       ]
       ..parts = [
         part('tic_tac_toe')

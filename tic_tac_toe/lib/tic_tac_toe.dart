@@ -160,41 +160,6 @@ class GameState {
 
 }
 
-/// Win, lose or draw - from the perspective of one or other user
-class Outcome { 
-  static const WIN = const Outcome._(0);
-  static const LOSE = const Outcome._(1);
-  static const DRAW = const Outcome._(2);
-
-  static get values => [
-    WIN,
-    LOSE,
-    DRAW
-  ];
-
-  final int value;
-
-  const Outcome._(this.value);
-
-  String toString() { 
-    switch(this) { 
-      case WIN: return "WIN";
-      case LOSE: return "LOSE";
-      case DRAW: return "DRAW";
-    }
-  }
-
-  static Outcome fromString(String s) { 
-    switch(s) { 
-      case "WIN": return WIN;
-      case "LOSE": return LOSE;
-      case "DRAW": return DRAW;
-    }
-  }
-
-
-}
-
 // custom <library tic_tac_toe>
 // end <library tic_tac_toe>
 
