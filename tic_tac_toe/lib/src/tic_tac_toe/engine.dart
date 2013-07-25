@@ -257,7 +257,7 @@ class BasicGameEngine extends IGameEngine {
   /// [atLeastADraw]. If after this move, for all positions of our opponent we
   /// can find at least one place to go to force a draw then we can achieve at
   /// least a draw.
-  bool atLeastADraw(BoardLocation location, [int i = 0]) {
+  bool atLeastADraw(BoardLocation location) {
     var me = _nextPlayer;
 
     return _tryMove(location, () {
@@ -274,7 +274,7 @@ class BasicGameEngine extends IGameEngine {
               return true;
             } else {
               return _board.potentialMoves.any((myNextSpot) =>
-                  atLeastADraw(myNextSpot, ++i));
+                  atLeastADraw(myNextSpot));
             }
           });
         });
