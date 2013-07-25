@@ -136,13 +136,6 @@ final catGames = [
   ],
 ];
 
-final g1 = [
-    [ PositionState.HAS_X, PositionState.EMPTY, PositionState.EMPTY, ],
-    [ PositionState.EMPTY, PositionState.EMPTY, PositionState.EMPTY, ],
-    [ PositionState.EMPTY, PositionState.EMPTY, PositionState.EMPTY, ],
-];
-
-
 final oTurn = [
     [ PositionState.HAS_X, PositionState.EMPTY, PositionState.EMPTY, ],
     [ PositionState.HAS_X, PositionState.HAS_O, PositionState.EMPTY, ],
