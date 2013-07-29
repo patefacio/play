@@ -1,0 +1,39 @@
+/* custom <classSelectorFail top> */
+/* end <classSelectorFail top> */
+
+
+[is=good-evil] {
+  /* custom <good-evil> */
+
+
+  /* end <good-evil> */
+  
+}
+
+
+[is=non-wrapping] {
+  /* custom <non-wrapping> */
+  /* end <non-wrapping> */
+  
+}
+
+
+/* custom <classSelectorFail bottom> */
+
+.color-good {
+    background-color:green;
+}
+
+.color-evil {
+    background-color:red;
+}
+
+.good {
+  background-color:yellow;
+}
+
+.evil {
+  background-color:pink;
+}
+
+/* end <classSelectorFail bottom> */

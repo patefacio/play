@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+    <!-- custom <goodEvil head> -->
+    <!-- end <goodEvil head> -->
+    
+  </head>
+  <body>
+    <polymer-element name="good-evil" extends="div" constructor="GoodEvil" apply-author-styles>
+      <template>
+        
+        <!-- custom <goodEvil template> -->
+        <div class='color-good' id='good-wrapper'>
+          <content select='.good' id='good-contents'></content>
+        </div>
+        <div class='color-evil' id='evil-wrapper'>
+          <content id='evil-contents'></content>
+        </div>
+        <!-- end <goodEvil template> -->
+        
+      </template>
+      <script type="application/dart" src="good_evil.dart"></script>
+    </polymer-element>
+  </body>
+</html>

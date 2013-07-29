@@ -12,11 +12,13 @@ main() {
   ComponentLibrary lib = componentLibrary('tic_tac_toe')
     ..doc = 'Simple tic tac toe game'
     ..rootPath = rootDir
+    ..dependencies = [
+      pubdep('split_panel')
+    ]
     ..examples = [
       example(id('basic_game'))
     ]
     ..components = [
-      component('tic_tac_toe_row'),
       component('tic_tac_toe')
     ]
     ..libraries = [

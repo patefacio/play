@@ -6,9 +6,15 @@ import "package:logging/logging.dart";
 final _logger = new Logger("ticTacToe");
 
 
-class TicTacToe extends CustomElement { 
+class TicTacToe extends PolymerElement { 
 
   // custom <class TicTacToe>
+  void inserted() {
+    style.height = "500px";
+    style.width = "500px";
+    print("${getComputedStyle().height}");
+    print("TTT inserted");
+  }
   // end <class TicTacToe>
 }
 

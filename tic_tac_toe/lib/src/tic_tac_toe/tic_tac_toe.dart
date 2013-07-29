@@ -67,7 +67,7 @@ class StateCounts {
               oCount++;
               break;
             default:
-              assert("Invalid state ${states[row][column]}" == null);
+              assert("Invalid state ${state}" == null);
           }
         }));
   }
