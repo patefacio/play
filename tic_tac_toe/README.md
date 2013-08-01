@@ -42,6 +42,7 @@ set up to make this into a GUI component - but that is incomplete -
         Dependencies installed!
 
    * Run the desired tests
+
         bash-3.2$ dart test/all_tests.dart 
         unittest-suite-wait-for-done
         2013-08-01 07:07:40.788	basic_game_engine_test	[INFO]:	Got expected: Instance of 'InvalidBoard'
