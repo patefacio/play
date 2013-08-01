@@ -16,10 +16,13 @@ set up to make this into a GUI component - but that is incomplete -
         cd ~/tmp
         git clone https://github.com/patefacio/play
 
-  * Load the project in the Dart Editor
-  * Right click on the _pubspec.yaml_ file and do a _pub install_
-  * Right click on the desired test in the test folder and click
-    run. *NOTE*: there is a wrapper for all_tests.dart which only
+  * Load the project in the _Dart Editor_. From the top menu perform
+    the _File->Open Existing Folder..._ and select the _tic\_tac\_toe_
+    folder.
+  * Once loaded into the _Dart Editor_, right click on the
+    _pubspec.yaml_ file and select _Pub Install_
+  * Right click on the desired test in the test folder and select
+    _Run_. *NOTE*: there is a wrapper for _all\_tests.dart_ which only
     runs from the console (_see below_).
 
 ## Downloading and Running From Command Line
@@ -74,7 +77,7 @@ set up to make this into a GUI component - but that is incomplete -
     
 ## To play the computer
    
-   At a command line run the _play_computer.dart_ file.
+   At a command line run the _play\_computer.dart_ file.
     
         bash-3.2$ dart bin/play_computer.dart 
         You are player X - let's begin
