@@ -85,10 +85,11 @@ packages:
     version: "0.6.9+2"
   split_panel:
     description:
-      path: "/Users/dbdavidson/dev/open_source/web_ui/split_panel"
-      relative: false
-    source: path
-    version: "0.0.2"
+      ref: HEAD
+      resolved-ref: a337067da17301b91f0972c2a4efdae6b9830f43
+      url: "git://github.com/patefacio/split_panel"
+    source: git
+    version: "0.0.1"
   stack_trace:
     description: stack_trace
     source: hosted

@@ -14,6 +14,8 @@ main() {
     ..rootPath = rootDir
     ..dependencies = [
       pubdep('split_panel')
+      ..gitRef = 'HEAD'
+      ..path = 'git://github.com/patefacio/split_panel',
     ]
     ..examples = [
       example(id('basic_game'))
