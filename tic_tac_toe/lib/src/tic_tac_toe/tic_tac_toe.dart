@@ -203,7 +203,13 @@ abstract class IGameEngine {
 
   /// Reset the board to the original state
   void startNewGame([Player firstMover]);
+  
+  /// Returns true of player has one the game
+  bool playerHasWon(Player player);  
 
+  /// Returns true if this is a cat game. 
+  bool get isCatGame;
+  
   // end <class IGameEngine>
 }
 // custom <part tic_tac_toe>
