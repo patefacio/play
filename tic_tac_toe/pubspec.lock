@@ -17,20 +17,6 @@ packages:
     description: csslib
     source: hosted
     version: "0.4.7+10"
-  ebisu:
-    description:
-      ref: null
-      resolved-ref: c33a42e756332d2ce7bc7e7688f6ff804e82d874
-      url: "git://github.com/patefacio/ebisu"
-    source: git
-    version: "0.0.1"
-  ebisu_web_ui:
-    description:
-      ref: null
-      resolved-ref: bcef4ad901a96ca90d0794e6ca8e452e148c1da0
-      url: "git://github.com/patefacio/ebisu_web_ui"
-    source: git
-    version: "0.0.1"
   html5lib:
     description: html5lib
     source: hosted
@@ -47,16 +33,8 @@ packages:
     description: logging_handlers
     source: hosted
     version: "0.5.0+3"
-  mdv:
-    description: mdv
-    source: hosted
-    version: "0.6.9+2"
   meta:
     description: meta
-    source: hosted
-    version: "0.6.9+2"
-  observe:
-    description: observe
     source: hosted
     version: "0.6.9+2"
   path:
@@ -67,29 +45,10 @@ packages:
     description: pathos
     source: hosted
     version: "0.5.20"
-  polymer:
-    description: polymer
-    source: hosted
-    version: "0.5.1"
-  serialization:
-    description: serialization
-    source: hosted
-    version: "0.6.9+2"
-  shadow_dom:
-    description: shadow_dom
-    source: hosted
-    version: "0.6.9+2"
   source_maps:
     description: source_maps
     source: hosted
     version: "0.6.9+2"
-  split_panel:
-    description:
-      ref: HEAD
-      resolved-ref: a337067da17301b91f0972c2a4efdae6b9830f43
-      url: "git://github.com/patefacio/split_panel"
-    source: git
-    version: "0.0.1"
   stack_trace:
     description: stack_trace
     source: hosted
