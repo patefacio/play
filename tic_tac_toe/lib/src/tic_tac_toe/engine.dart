@@ -173,10 +173,18 @@ class Board extends IBoard {
     }
   }
 
-  String toString() => '''
-board: \n${_positionStates.join('\n')}
-state: ${_gameState}
+  String toString() {
+    String boardDisplay(PositionState state) =>
+      (state == PositionState.HAS_X)? 'X' :
+      (state == PositionState.HAS_O)? 'O' : ' ';
+
+    return '''board:
+${_positionStates.map((row) => 
+   row.map((cell) => boardDisplay(cell)).join(' | '))
+   .join('\n----------\n')}
 ''';
+
+  }
 
   // end <class Board>
 }
@@ -343,10 +351,7 @@ class BasicGameEngine extends IGameEngine {
   PositionState positionState(BoardLocation location) => 
     _board.positionState(location);
   List<BoardLocation> get potentialMoves => _board.potentialMoves;
-  String toString() => '''
-${_board.toString()}
-next: ${nextPlayer}
-''';
+  String toString() => board.toString();
   int get emptySlots => _board._emptySlots;
 
   void startNewGame([Player firstMover = Player.PLAYER_X]) {

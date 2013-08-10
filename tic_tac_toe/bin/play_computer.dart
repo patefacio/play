@@ -29,7 +29,6 @@ main() {
       }
 
       var myMove = engine.nextMove();
-      print("I chose move: $myMove");
       engine.makeMove(myMove);
 
       if(engine.isGameOver) {
