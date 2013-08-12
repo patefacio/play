@@ -5,7 +5,7 @@ import "package:logging/logging.dart";
 
 final _logger = new Logger("classSelectorFail");
 
-
+@CustomTag("good-evil")
 class GoodEvil extends PolymerElement { 
 
   // custom <class GoodEvil>

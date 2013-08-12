@@ -5,7 +5,7 @@ import "package:logging/logging.dart";
 
 final _logger = new Logger("classSelectorFail");
 
-
+@CustomTag("non-wrapping")
 class NonWrapping extends PolymerElement { 
 
   // custom <class NonWrapping>
