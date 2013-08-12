@@ -1,0 +1,13 @@
+name: stuff
+version: 0.0.1
+author: Daniel Davidson <dbdavidson@yahoo.com>
+description: >
+  Collection of components useful for modeling the data associated with a family
+dependencies:
+  browser:  "any"
+  pathos:  "any"
+  polymer:  "any"
+  logging:  "any"
+# custom <chattel dependencies>
+# end <chattel dependencies>
+
