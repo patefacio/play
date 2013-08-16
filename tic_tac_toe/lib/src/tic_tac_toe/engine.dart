@@ -13,7 +13,7 @@ class Board extends IBoard {
 
     // end <Board>
   }
- 
+
   final int _gameDim;
   /// Dimensions of the game
   int get gameDim => _gameDim;
@@ -142,8 +142,8 @@ class Board extends IBoard {
   void _updateGameState() {
     _gameState =
       xHasWon ? GameState.X_WON : (
-          oHasWon ? GameState.O_WON : (
-              _emptySlots == 0 ? GameState.CAT_GAME : GameState.INCOMPLETE));
+        oHasWon ? GameState.O_WON : (
+          _emptySlots == 0 ? GameState.CAT_GAME : GameState.INCOMPLETE));
   }
 
   /// Move the player to the location specified in the [playerMove]
@@ -196,9 +196,9 @@ class BasicGameEngine extends IGameEngine {
       this._nextPlayer = Player.PLAYER_X
     ]
   ) {
- 
+
   }
- 
+
   /// Board for a game of tic-tac-toe
   Board _board = new Board();
   Player _nextPlayer;
