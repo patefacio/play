@@ -8,7 +8,7 @@ part "src/tic_tac_toe/engine.dart";
 final _logger = new Logger("tic_tac_toe");
 
 /// Reason for move failing
-class InvalidMoveReason { 
+class InvalidMoveReason {
   static const BAD_LOCATION = const InvalidMoveReason._(0);
   static const OUT_OF_TURN = const InvalidMoveReason._(1);
   static const GAME_OVER = const InvalidMoveReason._(2);
@@ -23,16 +23,16 @@ class InvalidMoveReason {
 
   const InvalidMoveReason._(this.value);
 
-  String toString() { 
-    switch(this) { 
+  String toString() {
+    switch(this) {
       case BAD_LOCATION: return "BAD_LOCATION";
       case OUT_OF_TURN: return "OUT_OF_TURN";
       case GAME_OVER: return "GAME_OVER";
     }
   }
 
-  static InvalidMoveReason fromString(String s) { 
-    switch(s) { 
+  static InvalidMoveReason fromString(String s) {
+    switch(s) {
       case "BAD_LOCATION": return BAD_LOCATION;
       case "OUT_OF_TURN": return OUT_OF_TURN;
       case "GAME_OVER": return GAME_OVER;
@@ -43,7 +43,7 @@ class InvalidMoveReason {
 }
 
 /// Player x or player o - mutually exclusive
-class Player { 
+class Player {
   static const PLAYER_X = const Player._(0);
   static const PLAYER_O = const Player._(1);
 
@@ -56,15 +56,15 @@ class Player {
 
   const Player._(this.value);
 
-  String toString() { 
-    switch(this) { 
+  String toString() {
+    switch(this) {
       case PLAYER_X: return "PLAYER_X";
       case PLAYER_O: return "PLAYER_O";
     }
   }
 
-  static Player fromString(String s) { 
-    switch(s) { 
+  static Player fromString(String s) {
+    switch(s) {
       case "PLAYER_X": return PLAYER_X;
       case "PLAYER_O": return PLAYER_O;
     }
@@ -81,7 +81,7 @@ class Player {
 }
 
 /// Does the position contain x, o, or nothing
-class PositionState { 
+class PositionState {
   static const HAS_X = const PositionState._(0);
   static const HAS_O = const PositionState._(1);
   static const EMPTY = const PositionState._(2);
@@ -96,16 +96,16 @@ class PositionState {
 
   const PositionState._(this.value);
 
-  String toString() { 
-    switch(this) { 
+  String toString() {
+    switch(this) {
       case HAS_X: return "HAS_X";
       case HAS_O: return "HAS_O";
       case EMPTY: return "EMPTY";
     }
   }
 
-  static PositionState fromString(String s) { 
-    switch(s) { 
+  static PositionState fromString(String s) {
+    switch(s) {
       case "HAS_X": return HAS_X;
       case "HAS_O": return HAS_O;
       case "EMPTY": return EMPTY;
@@ -116,13 +116,13 @@ class PositionState {
 }
 
 /// Has x won, has y won, is the game incomplete, or is it complete with no winner
-/// (a CAT game).  This is a mutually exclusive state. 
-/// 
+/// (a CAT game).  This is a mutually exclusive state.
+///
 /// An incomplete game might be considered a CAT game if one assumed two intelligent
 /// players will definitely end it in a draw, but that is still an INCOMPLETE game
 /// as opposed to CAT, since CAT state means the board is filled.
-/// 
-class GameState { 
+///
+class GameState {
   static const X_WON = const GameState._(0);
   static const O_WON = const GameState._(1);
   static const INCOMPLETE = const GameState._(2);
@@ -139,8 +139,8 @@ class GameState {
 
   const GameState._(this.value);
 
-  String toString() { 
-    switch(this) { 
+  String toString() {
+    switch(this) {
       case X_WON: return "X_WON";
       case O_WON: return "O_WON";
       case INCOMPLETE: return "INCOMPLETE";
@@ -148,8 +148,8 @@ class GameState {
     }
   }
 
-  static GameState fromString(String s) { 
-    switch(s) { 
+  static GameState fromString(String s) {
+    switch(s) {
       case "X_WON": return X_WON;
       case "O_WON": return O_WON;
       case "INCOMPLETE": return INCOMPLETE;

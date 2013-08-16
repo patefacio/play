@@ -1,13 +1,13 @@
 part of tic_tac_toe;
 
 /// Attempted an undo move that does not match move
-class InvalidUndoOperation { 
+class InvalidUndoOperation {
   InvalidUndoOperation(
     this.message
   ) {
-  
+
   }
-  
+
   /// Info about the invalid undo
   String message;
 }
@@ -15,26 +15,26 @@ class InvalidUndoOperation {
 /// Board is in invalid state.  This can be caused by providing an invalid board
 /// matrix, for example if there are too many X or Os or if [whoMovesNext] is
 /// provided and not a valid option.
-class InvalidBoard { 
+class InvalidBoard {
   InvalidBoard(
     this.message
   ) {
-  
+
   }
-  
+
   /// Info about the invalid undo
   String message;
 }
 
 /// Exception indicating move to location already filled
-class InvalidMove implements Exception { 
+class InvalidMove implements Exception {
   InvalidMove(
     this.playerMove,
     this.reason
   ) {
-  
+
   }
-  
+
   /// Move that was rejected
   PlayerMove playerMove;
   /// Why the move was rejected
@@ -46,7 +46,7 @@ class InvalidMove implements Exception {
 }
 
 /// Accumulation of counts of the three possible states on a board
-class StateCounts { 
+class StateCounts {
   int xCount = 0;
   int oCount = 0;
   int emptyCount = 0;
@@ -76,12 +76,12 @@ class StateCounts {
 }
 
 /// Row and column indentifying location on board
-class BoardLocation { 
+class BoardLocation {
   const BoardLocation(
     this.row,
     this.column
   );
-  
+
   /// Row for the move
   final int row;
   /// Column for the move
@@ -95,12 +95,12 @@ class BoardLocation {
 }
 
 /// Indicates a move of player to specified location
-class PlayerMove { 
+class PlayerMove {
   const PlayerMove(
     this.player,
     this.location
   );
-  
+
   /// Player (x or o) moving to location
   final Player player;
   /// Location of the move
@@ -120,7 +120,7 @@ class PlayerMove {
 }
 
 /// Interface to a tic-tac-toe board
-abstract class IBoard { 
+abstract class IBoard {
 
   // custom <class IBoard>
 
@@ -161,7 +161,7 @@ abstract class IBoard {
 }
 
 /// Interface to the game play engine
-abstract class IGameEngine { 
+abstract class IGameEngine {
 
   // custom <class IGameEngine>
 
@@ -203,13 +203,13 @@ abstract class IGameEngine {
 
   /// Reset the board to the original state
   void startNewGame([Player firstMover]);
-  
-  /// Returns true of player has one the game
-  bool playerHasWon(Player player);  
 
-  /// Returns true if this is a cat game. 
+  /// Returns true of player has one the game
+  bool playerHasWon(Player player);
+
+  /// Returns true if this is a cat game.
   bool get isCatGame;
-  
+
   // end <class IGameEngine>
 }
 // custom <part tic_tac_toe>

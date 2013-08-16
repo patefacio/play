@@ -1,7 +1,7 @@
 part of tic_tac_toe;
 
 /// Implementation of tick tack toe board
-class Board extends IBoard { 
+class Board extends IBoard {
   Board(
     [
       this._gameDim = 3
@@ -13,7 +13,7 @@ class Board extends IBoard {
 
     // end <Board>
   }
-  
+ 
   final int _gameDim;
   /// Dimensions of the game
   int get gameDim => _gameDim;
@@ -32,12 +32,12 @@ class Board extends IBoard {
   static List<List<PositionState>> deepCopy(List<List<PositionState>> src) =>
     new List.generate(src.length, (i) => new List.from(src[i]));
 
-  /// Create the board from the specified matrix. 
-  /// 
+  /// Create the board from the specified matrix.
+  ///
   /// If the board is invalid InvalidBoard will be thrown. Deep copy is
   /// performed on [positionStates] since important to ensure data belongs to
   /// instance
-  Board.fromMatrix(List<List<PositionState>> positionStates) : 
+  Board.fromMatrix(List<List<PositionState>> positionStates) :
     _gameDim = positionStates.length,
     _positionStates = deepCopy(positionStates)
   {
@@ -63,7 +63,7 @@ class Board extends IBoard {
 
     for(int row = 0; row < _gameDim; row++) {
       for(int column = 0; column < _gameDim; column++) {
-        if(_positionStates[row][column] == PositionState.EMPTY) 
+        if(_positionStates[row][column] == PositionState.EMPTY)
           result.add(new BoardLocation(row, column));
       }
     }
@@ -73,10 +73,10 @@ class Board extends IBoard {
   /// Set state to cleared board
   void startNewGame() {
     if(_positionStates == null) {
-      _positionStates = new List.generate(_gameDim, 
+      _positionStates = new List.generate(_gameDim,
           (_) => new List.filled(_gameDim, PositionState.EMPTY));
     } else {
-      _positionStates.forEach((row) => 
+      _positionStates.forEach((row) =>
           row.fillRange(0, _gameDim, PositionState.EMPTY));
     }
     _emptySlots = _gameDim * _gameDim;
@@ -85,12 +85,12 @@ class Board extends IBoard {
 
   /// Returns expected state of position if [player] is there
   PositionState _playerTargetState(Player player) =>
-    (player == Player.PLAYER_X) ? 
+    (player == Player.PLAYER_X) ?
     PositionState.HAS_X : PositionState.HAS_O;
 
   bool horizontalWinner(Player player) {
     final PositionState targetState = _playerTargetState(player);
-    return _positionStates.any((row) => 
+    return _positionStates.any((row) =>
         row.every((ps) => ps == targetState));
   }
 
@@ -99,7 +99,7 @@ class Board extends IBoard {
     for(int columnIndex = 0; columnIndex < _gameDim; columnIndex++) {
       bool allMatch = true;
       for(int rowIndex = 0; allMatch && (rowIndex < _gameDim); rowIndex++) {
-        allMatch = allMatch && 
+        allMatch = allMatch &&
           (_positionStates[rowIndex][columnIndex] == targetState);
       }
       if(allMatch)
@@ -148,7 +148,7 @@ class Board extends IBoard {
 
   /// Move the player to the location specified in the [playerMove]
   void _move(PlayerMove playerMove) {
-    _positionStates[playerMove.row][playerMove.column] = 
+    _positionStates[playerMove.row][playerMove.column] =
       (playerMove.player == Player.PLAYER_X)? PositionState.HAS_X :
       PositionState.HAS_O;
     _emptySlots -= 1;
@@ -163,7 +163,7 @@ class Board extends IBoard {
   void _undo(PlayerMove playerMove) {
     final PositionState targetState = _playerTargetState(playerMove.player);
     if(_positionStates[playerMove.row][playerMove.column] != targetState) {
-      throw new 
+      throw new
        InvalidUndoOperation(
            "Invalid undo $playerMove state mismatch on board $_positionStates");
     } else {
@@ -179,7 +179,7 @@ class Board extends IBoard {
       (state == PositionState.HAS_O)? 'O' : ' ';
 
     return '''board:
-${_positionStates.map((row) => 
+${_positionStates.map((row) =>
    row.map((cell) => boardDisplay(cell)).join(' | '))
    .join('\n----------\n')}
 ''';
@@ -190,15 +190,15 @@ ${_positionStates.map((row) =>
 }
 
 /// One approach to playing the game
-class BasicGameEngine extends IGameEngine { 
+class BasicGameEngine extends IGameEngine {
   BasicGameEngine(
     [
       this._nextPlayer = Player.PLAYER_X
     ]
   ) {
-  
+ 
   }
-  
+ 
   /// Board for a game of tic-tac-toe
   Board _board = new Board();
   Player _nextPlayer;
@@ -221,11 +221,11 @@ class BasicGameEngine extends IGameEngine {
         _nextPlayer = (whoMovesNext != null)? whoMovesNext: Player.PLAYER_X;
       } else {
 
-        _nextPlayer = 
+        _nextPlayer =
           (counts.xCount > counts.oCount)? Player.PLAYER_O : Player.PLAYER_X;
 
         if(whoMovesNext != null && whoMovesNext != _nextPlayer) {
-          throw new 
+          throw new
             InvalidBoard("Invalid board, $whoMovesNext not next: $_board");
         }
       }
@@ -233,7 +233,7 @@ class BasicGameEngine extends IGameEngine {
   }
 
   /// Construct a game engine from 2D matrix of position states. If there are an
-  /// equal number of X and O then you can specify [whoMovesNext]. 
+  /// equal number of X and O then you can specify [whoMovesNext].
   BasicGameEngine.fromMatrix(List<List<PositionState>> positionStates,
                              [ Player whoMovesNext ]) {
     _board = new Board.fromMatrix(positionStates);
@@ -241,7 +241,7 @@ class BasicGameEngine extends IGameEngine {
   }
 
   /// Create a move for the current player destined for [location]
-  PlayerMove createMove(BoardLocation location) => 
+  PlayerMove createMove(BoardLocation location) =>
     new PlayerMove(_nextPlayer, location);
 
   /// Attempts to move to location and after the move calls [thenWhat]. After
@@ -312,10 +312,10 @@ class BasicGameEngine extends IGameEngine {
   /// Make the move specified by [playerMove], update the state of the board and
   /// adjust player.
   GameState makeMove(PlayerMove playerMove) {
-    if(_board.isGameOver) 
+    if(_board.isGameOver)
       throw new InvalidMove(playerMove, InvalidMoveReason.GAME_OVER);
 
-    if(_nextPlayer != playerMove.player) 
+    if(_nextPlayer != playerMove.player)
       throw new InvalidMove(playerMove, InvalidMoveReason.OUT_OF_TURN);
 
     PositionState currentState = _board.positionState(playerMove.location);
@@ -348,7 +348,7 @@ class BasicGameEngine extends IGameEngine {
   bool playerHasWon(Player player) => _board.playerHasWon(player);
   bool get isCatGame => _board.isCatGame;
   bool get isGameOver => _board.isGameOver;
-  PositionState positionState(BoardLocation location) => 
+  PositionState positionState(BoardLocation location) =>
     _board.positionState(location);
   List<BoardLocation> get potentialMoves => _board.potentialMoves;
   String toString() => board.toString();
