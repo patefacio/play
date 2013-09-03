@@ -64,11 +64,8 @@ to CAT, since CAT state means the board is filled.
         ..classes = [
           class_('invalid_undo_operation')
           ..doc = '''
-
 Indicates an call to undoMove, which can happen when the
-[move] requested undone is not present on the board.
-
-'''
+[move] requested undone is not present on the board.'''
 
           ..implement = ['Exception']
           ..members = [
@@ -78,14 +75,11 @@ Indicates an call to undoMove, which can happen when the
           class_('invalid_board')
           ..implement = ['Exception']
           ..doc = '''
-
 Board is in invalid state.  This can be caused by
 providing an invalid board matrix, for example if there
 are too many X or Os or if [whoMovesNext] is provided and
 not a valid option. Message contains information about
-the cause.
-
-'''
+the cause.'''
           ..members = [
             member('message')
             ..ctors = [''],

@@ -12,7 +12,7 @@ class Board extends IBoard {
 
     // end <Board>
   }
-  
+
   final int _gameDim;
   int get gameDim => _gameDim;
   List<List<PositionState>> _positionStates;
@@ -199,7 +199,7 @@ class BasicGameEngine extends IGameEngine {
   ) {
 
   }
-  
+
   Board _board = new Board();
   Player _nextPlayer;
   /// X goes first by default

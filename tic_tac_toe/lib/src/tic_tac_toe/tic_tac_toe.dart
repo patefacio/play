@@ -36,7 +36,7 @@ class BoardLocation {
     this.row,
     this.column
   );
-  
+
   final int row;
   final int column;
 
@@ -53,7 +53,7 @@ class PlayerMove {
     this.player,
     this.location
   );
-  
+
   final Player player;
   final BoardLocation location;
 
