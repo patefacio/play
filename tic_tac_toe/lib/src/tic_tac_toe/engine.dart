@@ -40,7 +40,7 @@ class Board extends IBoard {
     StateCounts counts = new StateCounts(positionStates);
 
     if((counts.xCount - counts.oCount).abs() > 1) {
-      throw new InvalidBoard("Invalid board $positionStates");
+      throw new InvalidBoard("Invalid board, count mismatch $positionStates");
     }
 
     _emptySlots = counts.emptyCount;

@@ -60,19 +60,32 @@ to CAT, since CAT state means the board is filled.
         ],
       ]
       ..parts = [
-        part('tic_tac_toe')
+        part('exception')
         ..classes = [
           class_('invalid_undo_operation')
-          ..includeCustom = false
+          ..doc = '''
+
+Indicates an call to undoMove, which can happen when the
+[move] requested undone is not present on the board.
+
+'''
+
+          ..implement = ['Exception']
           ..members = [
             member('message')
             ..ctors = [''],
           ],
           class_('invalid_board')
-          ..includeCustom = false
-          ..doc = '''Board is in invalid state.  This can be caused by providing an invalid board
-matrix, for example if there are too many X or Os or if [whoMovesNext] is
-provided and not a valid option. Message contains information about the cause.'''
+          ..implement = ['Exception']
+          ..doc = '''
+
+Board is in invalid state.  This can be caused by
+providing an invalid board matrix, for example if there
+are too many X or Os or if [whoMovesNext] is provided and
+not a valid option. Message contains information about
+the cause.
+
+'''
           ..members = [
             member('message')
             ..ctors = [''],
@@ -88,6 +101,9 @@ provided and not a valid option. Message contains information about the cause.''
             ..type = 'InvalidMoveReason'
             ..ctors = [''],
           ],
+        ],
+        part('tic_tac_toe')
+        ..classes = [
           class_('state_counts')
           ..doc = 'Accumulation of counts of the three possible states on a board'
           ..members = [

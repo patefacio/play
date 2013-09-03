@@ -4,6 +4,7 @@ import 'package:logging/logging.dart';
 // custom <additional imports>
 // end <additional imports>
 
+part "src/tic_tac_toe/exception.dart";
 part "src/tic_tac_toe/tic_tac_toe.dart";
 part "src/tic_tac_toe/engine.dart";
 

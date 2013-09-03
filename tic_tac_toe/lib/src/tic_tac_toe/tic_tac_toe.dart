@@ -1,45 +1,5 @@
 part of tic_tac_toe;
 
-class InvalidUndoOperation {
-  InvalidUndoOperation(
-    this.message
-  ) {
-
-  }
-  
-  String message;
-}
-
-/// Board is in invalid state.  This can be caused by providing an invalid board
-/// matrix, for example if there are too many X or Os or if [whoMovesNext] is
-/// provided and not a valid option. Message contains information about the cause.
-class InvalidBoard {
-  InvalidBoard(
-    this.message
-  ) {
-
-  }
-  
-  String message;
-}
-
-/// Exception indicating move to location already filled
-class InvalidMove implements Exception {
-  InvalidMove(
-    this.playerMove,
-    this.reason
-  ) {
-
-  }
-  
-  PlayerMove playerMove;
-  InvalidMoveReason reason;
-
-  // custom <class InvalidMove>
-  String toString() => 'Invalid Move ${playerMove} reason => $reason';
-  // end <class InvalidMove>
-}
-
 /// Accumulation of counts of the three possible states on a board
 class StateCounts {
   int xCount = 0;
@@ -200,7 +160,7 @@ abstract class IGameEngine {
   /// Reset the board to the original state
   void startNewGame([Player firstMover]);
 
-  /// Returns true of player has one the game
+  /// Returns true if [player] has one the game
   bool playerHasWon(Player player);
 
   /// Returns true if this is a cat game.
