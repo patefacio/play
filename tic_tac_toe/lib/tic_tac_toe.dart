@@ -120,12 +120,12 @@ class PositionState {
 /// Has x won, has y won, is the game incomplete, or is it
 /// complete with no winner (a CAT game).  This is a mutually
 /// exclusive state.
-/// 
+///
 /// An incomplete game might be considered a CAT game if one
 /// assumed two intelligent players will definitely end it in
 /// a draw, but that is still an INCOMPLETE game as opposed
 /// to CAT, since CAT state means the board is filled.
-/// 
+///
 /// 
 class GameState {
   static const X_WON = const GameState._(0);

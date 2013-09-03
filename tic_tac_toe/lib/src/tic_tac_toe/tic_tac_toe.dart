@@ -115,7 +115,7 @@ abstract class IBoard {
 /// Interface to the game play engine. The engine can automate a move for
 /// *either* player via [engineMove]. Alternatively, the interface
 /// supports non-automated moves via [makeMove].
-/// 
+///
 ///
 abstract class IGameEngine {
 

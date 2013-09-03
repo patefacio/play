@@ -3,7 +3,7 @@ part of tic_tac_toe;
 /// 
 /// Indicates an call to undoMove, which can happen when the
 /// [move] requested undone is not present on the board.
-/// 
+///
 ///
 class InvalidUndoOperation implements Exception {
   InvalidUndoOperation(
@@ -27,7 +27,7 @@ class InvalidUndoOperation implements Exception {
 /// are too many X or Os or if [whoMovesNext] is provided and
 /// not a valid option. Message contains information about
 /// the cause.
-/// 
+///
 ///
 class InvalidBoard implements Exception {
   InvalidBoard(

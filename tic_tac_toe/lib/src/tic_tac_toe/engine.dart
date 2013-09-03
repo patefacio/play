@@ -189,7 +189,7 @@ ${_positionStates.map((row) =>
 /// A basic engine that provides an automated move [nextMove]
 /// that will seek at least a draw, but not necessarily
 /// aggressively go for the win.
-/// 
+///
 ///
 class BasicGameEngine extends IGameEngine {
   BasicGameEngine(
