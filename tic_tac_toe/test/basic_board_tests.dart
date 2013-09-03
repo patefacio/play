@@ -39,10 +39,9 @@ main() {
           expect(board.gameState, GameState.INCOMPLETE));
 
       test('potential moves count matches emptySlots', () {
-        expect((board as Board).emptySlots, 
+        expect((board as Board).emptySlots,
             board.potentialMoves.length);
       });
-          
     });
 
     catGames.forEach((boardMatrix) {

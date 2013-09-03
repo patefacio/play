@@ -1,6 +1,5 @@
 part of tic_tac_toe;
 
-/// Implementation of tick tack toe board
 class Board extends IBoard {
   Board(
     [
@@ -13,14 +12,11 @@ class Board extends IBoard {
 
     // end <Board>
   }
-
+  
   final int _gameDim;
-  /// Dimensions of the game
   int get gameDim => _gameDim;
-  /// Represents the state of each of the positions in the game
   List<List<PositionState>> _positionStates;
   GameState _gameState;
-  /// State of game - updated on completion of each move
   GameState get gameState => _gameState;
   int _emptySlots;
   /// Number of slots that are currently empty
@@ -189,7 +185,12 @@ ${_positionStates.map((row) =>
   // end <class Board>
 }
 
-/// One approach to playing the game
+/// 
+/// A basic engine that provides an automated move [nextMove]
+/// that will seek at least a draw, but not necessarily
+/// aggressively go for the win.
+/// 
+///
 class BasicGameEngine extends IGameEngine {
   BasicGameEngine(
     [
@@ -198,11 +199,10 @@ class BasicGameEngine extends IGameEngine {
   ) {
 
   }
-
-  /// Board for a game of tic-tac-toe
+  
   Board _board = new Board();
   Player _nextPlayer;
-  /// Next player to move - X goes first by default
+  /// X goes first by default
   Player get nextPlayer => _nextPlayer;
 
   // custom <class BasicGameEngine>

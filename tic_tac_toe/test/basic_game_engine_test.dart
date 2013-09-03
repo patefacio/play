@@ -66,18 +66,6 @@ main() {
       }
     });
 
-    test('X Moves On Game Over Exception', () {
-      IGameEngine gameEngine = 
-        new BasicGameEngine.fromMatrix(xWins['horizontal_0']);
-      try {
-        gameEngine.makeMove(new PlayerMove(Player.PLAYER_O, pos00));
-        assert(null == "Excpected InvalidMove");
-      } on InvalidMove catch(invalidMove) {
-        expect(invalidMove.reason, InvalidMoveReason.GAME_OVER);
-        return;
-      }
-    });
-
     test('Invalid Board - Who Moves Next', () {
       try {
         // Create engine where it is clearly O's turn but try to make it X's
@@ -100,48 +88,6 @@ main() {
       } catch(e) {
         assert(null == "Excpected InvalidBoard");
       }
-    });
-
-    test('X turn attempting undo X move', () {
-      IGameEngine gameEngine = new BasicGameEngine.fromMatrix(emptyGame);
-      var firstMove = new PlayerMove(Player.PLAYER_X, pos00);
-      gameEngine.makeMove(firstMove);
-      expect(gameEngine.positionState(pos00), PositionState.HAS_X);
-      gameEngine.undoMove(firstMove);
-      expect(gameEngine.positionState(pos00), PositionState.EMPTY);
-      gameEngine.makeMove(firstMove);
-      var secondMove = new PlayerMove(Player.PLAYER_O, pos10);
-      gameEngine.makeMove(secondMove);
-      expect(gameEngine.positionState(pos10), PositionState.HAS_O);
-      try {
-        gameEngine.undoMove(firstMove);
-        assert(null == "Excpected InvalidMove");
-      } on InvalidUndoOperation catch(e) {
-        return;
-      }
-      try {
-        gameEngine.undoMove(new PlayerMove(Player.PLAYER_X, pos10));
-        assert(null == "Excpected InvalidUndoOperation");
-      } on InvalidUndoOperation catch(e) {
-        // expected
-      } catch(e) {
-        assert(null == "Unexpected Exception");
-      }
-
-      try {
-        gameEngine.undoMove(new PlayerMove(Player.PLAYER_X, 
-                new BoardLocation(1,1)));
-        assert(null == "Excpected InvalidUndoOperation");
-      } on InvalidUndoOperation catch(e) {
-        // expected
-      } catch(e) {
-        assert(null == "Unexpected Exception");
-      }
-
-      gameEngine.undoMove(secondMove);
-      gameEngine.undoMove(firstMove);
-      expect(gameEngine.potentialMoves.length, 
-          gameEngine.gameDim * gameEngine.gameDim);
     });
 
     test('Games end in CAT', () {

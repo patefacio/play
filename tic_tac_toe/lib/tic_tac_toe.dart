@@ -1,7 +1,9 @@
 library tic_tac_toe;
 
-import "package:logging/logging.dart";
-import "package:logging_handlers/logging_handlers_shared.dart";
+import 'package:logging/logging.dart';
+// custom <additional imports>
+// end <additional imports>
+
 part "src/tic_tac_toe/tic_tac_toe.dart";
 part "src/tic_tac_toe/engine.dart";
 
@@ -42,7 +44,6 @@ class InvalidMoveReason {
 
 }
 
-/// Player x or player o - mutually exclusive
 class Player {
   static const PLAYER_X = const Player._(0);
   static const PLAYER_O = const Player._(1);
@@ -80,7 +81,6 @@ class Player {
 
 }
 
-/// Does the position contain x, o, or nothing
 class PositionState {
   static const HAS_X = const PositionState._(0);
   static const HAS_O = const PositionState._(1);
@@ -115,13 +115,17 @@ class PositionState {
 
 }
 
-/// Has x won, has y won, is the game incomplete, or is it complete with no winner
-/// (a CAT game).  This is a mutually exclusive state.
-///
-/// An incomplete game might be considered a CAT game if one assumed two intelligent
-/// players will definitely end it in a draw, but that is still an INCOMPLETE game
-/// as opposed to CAT, since CAT state means the board is filled.
-///
+/// 
+/// Has x won, has y won, is the game incomplete, or is it
+/// complete with no winner (a CAT game).  This is a mutually
+/// exclusive state.
+/// 
+/// An incomplete game might be considered a CAT game if one
+/// assumed two intelligent players will definitely end it in
+/// a draw, but that is still an INCOMPLETE game as opposed
+/// to CAT, since CAT state means the board is filled.
+/// 
+/// 
 class GameState {
   static const X_WON = const GameState._(0);
   static const O_WON = const GameState._(1);

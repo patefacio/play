@@ -37,20 +37,22 @@ main() {
           id('game_over'),
         ],
         enum_('player')
-        ..doc = 'Player x or player o - mutually exclusive'
         ..hasCustom = true
         ..values = [ id('player_x'), id('player_o')],
         enum_('position_state')
-        ..doc = 'Does the position contain x, o, or nothing'
         ..values = [ id('has_x'), id('has_o'), id('empty')],
         enum_('game_state')
         ..doc = '''
-Has x won, has y won, is the game incomplete, or is it complete with no winner
-(a CAT game).  This is a mutually exclusive state. 
 
-An incomplete game might be considered a CAT game if one assumed two intelligent
-players will definitely end it in a draw, but that is still an INCOMPLETE game
-as opposed to CAT, since CAT state means the board is filled.
+Has x won, has y won, is the game incomplete, or is it
+complete with no winner (a CAT game).  This is a mutually
+exclusive state.
+
+An incomplete game might be considered a CAT game if one
+assumed two intelligent players will definitely end it in
+a draw, but that is still an INCOMPLETE game as opposed
+to CAT, since CAT state means the board is filled.
+
 '''
         ..values = [ 
           id('x_won'), id('o_won'), id('incomplete'),
@@ -62,20 +64,17 @@ as opposed to CAT, since CAT state means the board is filled.
         ..classes = [
           class_('invalid_undo_operation')
           ..includeCustom = false
-          ..doc = 'Attempted an undo move that does not match move'
           ..members = [
             member('message')
-            ..doc = 'Info about the invalid undo'
             ..ctors = [''],
           ],
           class_('invalid_board')
           ..includeCustom = false
           ..doc = '''Board is in invalid state.  This can be caused by providing an invalid board
 matrix, for example if there are too many X or Os or if [whoMovesNext] is
-provided and not a valid option.'''
+provided and not a valid option. Message contains information about the cause.'''
           ..members = [
             member('message')
-            ..doc = 'Info about the invalid undo'
             ..ctors = [''],
           ],
           class_('invalid_move')
@@ -83,11 +82,9 @@ provided and not a valid option.'''
           ..implement = ['Exception']
           ..members = [
             member('player_move')
-            ..doc = 'Move that was rejected'
             ..type = 'PlayerMove'
             ..ctors = [''],
             member('reason')
-            ..doc = 'Why the move was rejected'
             ..type = 'InvalidMoveReason'
             ..ctors = [''],
           ],
@@ -109,12 +106,10 @@ provided and not a valid option.'''
           ..ctorConst = ['']
           ..members = [
             member('row')
-            ..doc = 'Row for the move'
             ..type = 'int'
             ..isFinal = true
             ..ctors = [''],
             member('column')
-            ..doc = 'Column for the move'
             ..type = 'int'
             ..isFinal = true
             ..ctors = [''],
@@ -124,12 +119,10 @@ provided and not a valid option.'''
           ..ctorConst = ['']
           ..members = [
             member('player')
-            ..doc = 'Player (x or o) moving to location'
             ..type = 'Player'
             ..isFinal = true
             ..ctors = [''],
             member('location')
-            ..doc = 'Location of the move'
             ..type = 'BoardLocation'
             ..isFinal = true
             ..ctors = [''],
@@ -138,29 +131,31 @@ provided and not a valid option.'''
           ..doc = 'Interface to a tic-tac-toe board'
           ..isAbstract = true,
           class_('i_game_engine')
-          ..doc = 'Interface to the game play engine'
+          ..doc = '''
+
+Interface to the game play engine. The engine can automate a move for
+*either* player via [engineMove]. Alternatively, the interface
+supports non-automated moves via [makeMove].
+
+'''
           ..isAbstract = true,
         ],
         part('engine')
         ..classes = [
           class_('board')
           ..defaultMemberAccess = IA
-          ..doc = 'Implementation of tick tack toe board'
           ..ctorCustoms = ['']
           ..extend = 'IBoard'
           ..members = [
             member('game_dim')
-            ..doc = 'Dimensions of the game'
             ..type = 'int'
             ..isFinal = true
             ..access = RO
             ..ctorInit = '3'
             ..ctorsOpt = [''],
             member('position_states')
-            ..doc = 'Represents the state of each of the positions in the game'
             ..type = 'List<List<PositionState>>',
             member('game_state')
-            ..doc = 'State of game - updated on completion of each move'
             ..access = RO
             ..type = 'GameState',
             member('empty_slots')
@@ -170,15 +165,20 @@ provided and not a valid option.'''
           ],          
           class_('basic_game_engine')
           ..defaultMemberAccess = IA
-          ..doc = 'One approach to playing the game'
+          ..doc = '''
+
+A basic engine that provides an automated move [nextMove]
+that will seek at least a draw, but not necessarily
+aggressively go for the win.
+
+'''
           ..extend = 'IGameEngine'
           ..members = [
             member('board')
-            ..doc = 'Board for a game of tic-tac-toe'
             ..type = 'Board'
             ..classInit = 'new Board()',
             member('next_player')
-            ..doc = 'Next player to move - X goes first by default'
+            ..doc = 'X goes first by default'
             ..access = RO
             ..type = 'Player'
             ..ctorInit = 'Player.PLAYER_X'

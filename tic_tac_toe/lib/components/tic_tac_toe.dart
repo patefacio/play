@@ -5,8 +5,8 @@ import "package:logging/logging.dart";
 
 final _logger = new Logger("ticTacToe");
 
-
-class TicTacToe extends PolymerElement { 
+@CustomTag("tic-tac-toe")
+class TicTacToe extends PolymerElement {
 
   // custom <class TicTacToe>
   void inserted() {

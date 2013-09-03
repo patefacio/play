@@ -1,28 +1,25 @@
 part of tic_tac_toe;
 
-/// Attempted an undo move that does not match move
 class InvalidUndoOperation {
   InvalidUndoOperation(
     this.message
   ) {
 
   }
-
-  /// Info about the invalid undo
+  
   String message;
 }
 
 /// Board is in invalid state.  This can be caused by providing an invalid board
 /// matrix, for example if there are too many X or Os or if [whoMovesNext] is
-/// provided and not a valid option.
+/// provided and not a valid option. Message contains information about the cause.
 class InvalidBoard {
   InvalidBoard(
     this.message
   ) {
 
   }
-
-  /// Info about the invalid undo
+  
   String message;
 }
 
@@ -34,10 +31,8 @@ class InvalidMove implements Exception {
   ) {
 
   }
-
-  /// Move that was rejected
+  
   PlayerMove playerMove;
-  /// Why the move was rejected
   InvalidMoveReason reason;
 
   // custom <class InvalidMove>
@@ -81,10 +76,8 @@ class BoardLocation {
     this.row,
     this.column
   );
-
-  /// Row for the move
+  
   final int row;
-  /// Column for the move
   final int column;
 
   // custom <class BoardLocation>
@@ -100,10 +93,8 @@ class PlayerMove {
     this.player,
     this.location
   );
-
-  /// Player (x or o) moving to location
+  
   final Player player;
-  /// Location of the move
   final BoardLocation location;
 
   // custom <class PlayerMove>
@@ -160,7 +151,12 @@ abstract class IBoard {
   // end <class IBoard>
 }
 
-/// Interface to the game play engine
+/// 
+/// Interface to the game play engine. The engine can automate a move for
+/// *either* player via [engineMove]. Alternatively, the interface
+/// supports non-automated moves via [makeMove].
+/// 
+///
 abstract class IGameEngine {
 
   // custom <class IGameEngine>
