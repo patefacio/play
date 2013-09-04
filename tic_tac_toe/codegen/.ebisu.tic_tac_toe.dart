@@ -98,19 +98,6 @@ the cause.'''
         ],
         part('tic_tac_toe')
         ..classes = [
-          class_('state_counts')
-          ..doc = 'Accumulation of counts of the three possible states on a board'
-          ..members = [
-            member('x_count')
-            ..type = 'int'
-            ..classInit = '0',
-            member('o_count')
-            ..type = 'int'
-            ..classInit = '0',
-            member('empty_count')
-            ..classInit = '0'
-            ..type = 'int',
-          ],
           class_('board_location')
           ..doc = 'Row and column indentifying location on board'
           ..ctorConst = ['']
@@ -152,6 +139,19 @@ supports non-automated moves via [makeMove].
         ],
         part('engine')
         ..classes = [
+          class_('state_counts')
+          ..doc = 'Accumulation of counts of the three possible states on a board'
+          ..members = [
+            member('x_count')
+            ..type = 'int'
+            ..classInit = '0',
+            member('o_count')
+            ..type = 'int'
+            ..classInit = '0',
+            member('empty_count')
+            ..classInit = '0'
+            ..type = 'int',
+          ],
           class_('board')
           ..defaultMemberAccess = IA
           ..ctorCustoms = ['']

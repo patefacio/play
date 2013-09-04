@@ -1,35 +1,5 @@
 part of tic_tac_toe;
 
-/// Accumulation of counts of the three possible states on a board
-class StateCounts {
-  int xCount = 0;
-  int oCount = 0;
-  int emptyCount = 0;
-
-  // custom <class StateCounts>
-
-  StateCounts(List<List<PositionState>> states) {
-    states.forEach((row) =>
-        row.forEach((state) {
-          switch(state) {
-            case PositionState.EMPTY:
-              emptyCount++;
-              break;
-            case PositionState.HAS_X:
-              xCount++;
-              break;
-            case PositionState.HAS_O:
-              oCount++;
-              break;
-            default:
-              assert("Invalid state ${state}" == null);
-          }
-        }));
-  }
-
-  // end <class StateCounts>
-}
-
 /// Row and column indentifying location on board
 class BoardLocation {
   const BoardLocation(
