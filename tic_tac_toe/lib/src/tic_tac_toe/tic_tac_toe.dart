@@ -91,11 +91,11 @@ abstract class IGameEngine {
 
   // custom <class IGameEngine>
 
-  /// Find the state of a position on the board
   PositionState positionState(BoardLocation location);
 
   /// A request for the next move from the game engine. Calling this should have
-  /// no impact on the game state - it should only determine the next move
+  /// no impact on the game state - it should be a means for determining the
+  /// next automated move.
   PlayerMove nextMove();
 
   /// Perform an automated move using implementation's strategy via nextMove
@@ -105,35 +105,24 @@ abstract class IGameEngine {
     return result;
   }
 
-  /// Create a move for the current user destined for location
   PlayerMove createMove(BoardLocation location);
 
-  /// Perform a move and return state of game post move. May be used by "manual"
-  /// player
   GameState makeMove(PlayerMove move);
 
-  /// Undo last move
   void undoMove(PlayerMove move);
 
-  /// Return current state of game
   GameState get gameState;
 
-  /// Based on current state of game, who should move next
   Player get nextPlayer;
 
-  /// Returns true if game is over
   bool get isGameOver;
 
-  /// Returns list of all empty slots
   List<BoardLocation> get potentialMoves;
 
-  /// Reset the board to the original state
   void startNewGame([Player firstMover]);
 
-  /// Returns true if [player] has one the game
   bool playerHasWon(Player player);
 
-  /// Returns true if this is a cat game.
   bool get isCatGame;
 
   // end <class IGameEngine>
