@@ -31,11 +31,8 @@ class StateCounts {
 }
 
 class Board extends IBoard {
-  Board(
-    [
-      this._gameDim = 3
-    ]
-  ) {
+
+  Board([ this._gameDim = 3 ]) {
     // custom <Board>
 
     startNewGame();
@@ -222,13 +219,8 @@ ${_positionStates.map((row) =>
 ///
 ///
 class BasicGameEngine extends IGameEngine {
-  BasicGameEngine(
-    [
-      this._nextPlayer = Player.PLAYER_X
-    ]
-  ) {
 
-  }
+  BasicGameEngine([ this._nextPlayer = Player.PLAYER_X ]);
 
   Board _board = new Board();
   Player _nextPlayer;

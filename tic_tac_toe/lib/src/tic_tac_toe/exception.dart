@@ -3,11 +3,8 @@ part of tic_tac_toe;
 /// Indicates an call to undoMove, which can happen when the
 /// [move] requested undone is not present on the board.
 class InvalidUndoOperation implements Exception {
-  InvalidUndoOperation(
-    this.message
-  ) {
 
-  }
+  InvalidUndoOperation(this.message);
 
   String message;
 
@@ -24,11 +21,8 @@ class InvalidUndoOperation implements Exception {
 /// not a valid option. Message contains information about
 /// the cause.
 class InvalidBoard implements Exception {
-  InvalidBoard(
-    this.message
-  ) {
 
-  }
+  InvalidBoard(this.message);
 
   String message;
 
@@ -41,12 +35,8 @@ class InvalidBoard implements Exception {
 
 /// Exception indicating move to location already filled
 class InvalidMove implements Exception {
-  InvalidMove(
-    this.playerMove,
-    this.reason
-  ) {
 
-  }
+  InvalidMove(this.playerMove, this.reason);
 
   PlayerMove playerMove;
   InvalidMoveReason reason;

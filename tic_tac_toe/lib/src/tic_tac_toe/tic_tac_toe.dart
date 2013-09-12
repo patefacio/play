@@ -2,10 +2,8 @@ part of tic_tac_toe;
 
 /// Row and column indentifying location on board
 class BoardLocation {
-  const BoardLocation(
-    this.row,
-    this.column
-  );
+
+  const BoardLocation(this.row, this.column);
 
   final int row;
   final int column;
@@ -19,10 +17,8 @@ class BoardLocation {
 
 /// Indicates a move of player to specified location
 class PlayerMove {
-  const PlayerMove(
-    this.player,
-    this.location
-  );
+
+  const PlayerMove(this.player, this.location);
 
   final Player player;
   final BoardLocation location;
