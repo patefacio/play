@@ -201,7 +201,8 @@ class Board extends IBoard {
       (state == PositionState.HAS_X)? 'X' :
       (state == PositionState.HAS_O)? 'O' : ' ';
 
-    return '''board:
+    return '''
+
 ${_positionStates.map((row) =>
    row.map((cell) => boardDisplay(cell)).join(' | '))
    .join('\n----------\n')}
