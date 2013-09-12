@@ -37,8 +37,7 @@ main() {
 
       print("------------------------------------------------");
     } catch(e) {
-      print("OOPS - Exception $e\n"
-          "Pls enter number between 1 and 9 - try again");
+      print("Please enter number between 1 and 9");
     }
   }
 
