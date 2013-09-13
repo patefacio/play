@@ -25,10 +25,8 @@ class PlayerMove {
 
   // custom <class PlayerMove>
 
-  /// Row of the move
   int get row => location.row;
 
-  /// Column of the move
   int get column => location.column;
 
   String toString() => '${player} move => (${row}, ${column})';
@@ -41,10 +39,8 @@ abstract class IBoard {
 
   // custom <class IBoard>
 
-  /// Returns true if x has won the game
   bool get xHasWon;
 
-  /// Returns true if o has won the game
   bool get oHasWon;
 
   /// Returns true if this is a cat game. Note it is only a CAT game at the end,
@@ -52,22 +48,16 @@ abstract class IBoard {
   /// guarantee it will end in CAT.
   bool get isCatGame;
 
-  /// The game has ended in a win or cat game
   bool get isGameOver;
 
-  /// Returns true of player has one the game
   bool playerHasWon(Player player);
 
-  /// Returns a list of potential moves available on the board
   List<BoardLocation> get potentialMoves;
 
-  /// Returns the current state of the game
   GameState get gameState;
 
-  /// Dimensions of the board
   int get gameDim;
 
-  /// Performs the specified move
   void _move(PlayerMove playerMove);
 
   /// Undoes the specified move. If the move specified is not one that exists on
