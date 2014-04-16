@@ -1,7 +1,8 @@
-part of tic_tac_toe;
+part of tic_tac_toe.tic_tac_toe;
 
 /// Accumulation of counts of the three possible states on a board
 class StateCounts {
+
   int xCount = 0;
   int oCount = 0;
   int emptyCount = 0;
@@ -40,12 +41,8 @@ class Board extends IBoard {
     // end <Board>
   }
 
-  final int _gameDim;
   int get gameDim => _gameDim;
-  List<List<PositionState>> _positionStates;
-  GameState _gameState;
   GameState get gameState => _gameState;
-  int _emptySlots;
   /// Number of slots that are currently empty
   int get emptySlots => _emptySlots;
 
@@ -211,6 +208,10 @@ ${_positionStates.map((row) =>
   }
 
   // end <class Board>
+  final int _gameDim;
+  List<List<PositionState>> _positionStates;
+  GameState _gameState;
+  int _emptySlots;
 }
 
 /// 
@@ -218,13 +219,11 @@ ${_positionStates.map((row) =>
 /// that will seek at least a draw, but not necessarily
 /// aggressively go for the win.
 ///
-///
+/// 
 class BasicGameEngine extends IGameEngine {
 
   BasicGameEngine([ this._nextPlayer = Player.PLAYER_X ]);
 
-  Board _board = new Board();
-  Player _nextPlayer;
   /// X goes first by default
   Player get nextPlayer => _nextPlayer;
 
@@ -384,7 +383,8 @@ class BasicGameEngine extends IGameEngine {
 
 
   // end <class BasicGameEngine>
+  Board _board = new Board();
+  Player _nextPlayer;
 }
 // custom <part engine>
 // end <part engine>
-

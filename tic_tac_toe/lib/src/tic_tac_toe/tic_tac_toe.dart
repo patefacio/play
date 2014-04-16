@@ -1,4 +1,4 @@
-part of tic_tac_toe;
+part of tic_tac_toe.tic_tac_toe;
 
 /// Row and column indentifying location on board
 class BoardLocation {
@@ -37,6 +37,7 @@ class PlayerMove {
 /// Interface to a tic-tac-toe board
 abstract class IBoard {
 
+
   // custom <class IBoard>
 
   bool get xHasWon;
@@ -72,8 +73,9 @@ abstract class IBoard {
 /// *either* player via [engineMove]. Alternatively, the interface
 /// supports non-automated moves via [makeMove].
 ///
-///
+/// 
 abstract class IGameEngine {
+
 
   // custom <class IGameEngine>
 
@@ -115,4 +117,3 @@ abstract class IGameEngine {
 }
 // custom <part tic_tac_toe>
 // end <part tic_tac_toe>
-

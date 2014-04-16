@@ -1,7 +1,7 @@
 import 'package:unittest/unittest.dart';
 import 'package:tic_tac_toe/tic_tac_toe.dart';
 import "package:logging/logging.dart";
-import "package:logging_handlers/logging_handlers_shared.dart";
+import 'dart:convert' as convert;
 import 'input_games.dart';
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -23,8 +23,9 @@ main() {
 
     // Use this when logging desired this set of tests
     if(false) {
-      Logger.root.onRecord.listen(new PrintHandler());
       Logger.root.level = Level.FINE;
+      Logger.root.onRecord.listen((LogRecord r) =>
+          print("${r.loggerName} [${r.level}]:\t${r.message}"));
     }
 
     var computer = Player.PLAYER_O;
@@ -86,4 +87,3 @@ main() {
   });
 
 }
-

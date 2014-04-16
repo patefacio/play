@@ -1,4 +1,4 @@
-part of tic_tac_toe;
+part of tic_tac_toe.tic_tac_toe;
 
 /// Indicates an call to undoMove, which can happen when the
 /// [move] requested undone is not present on the board.
@@ -49,4 +49,3 @@ class InvalidMove implements Exception {
 }
 // custom <part exception>
 // end <part exception>
-

@@ -1,7 +1,6 @@
 import 'package:unittest/unittest.dart';
 import 'package:tic_tac_toe/tic_tac_toe.dart';
 import "package:logging/logging.dart";
-import "package:logging_handlers/logging_handlers_shared.dart";
 import 'input_games.dart';
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -14,7 +13,8 @@ main() {
 
   // Use this when logging desired this set of tests
   if(false) {
-    Logger.root.onRecord.listen(new PrintHandler());
+    Logger.root.onRecord.listen((LogRecord r) =>
+        print("${r.loggerName} [${r.level}]:\t${r.message}"));
     Logger.root.level = Level.FINE;
   }
 
@@ -26,7 +26,7 @@ main() {
       xTurnNext.forEach((boardMatrix) {
         IGameEngine engine = new BasicGameEngine.fromMatrix(boardMatrix);
         expect(engine.nextPlayer, Player.PLAYER_X);
-        IGameEngine swappedEngine = 
+        IGameEngine swappedEngine =
           new BasicGameEngine.fromMatrix(swapPlayers(boardMatrix),
                                          Player.PLAYER_O);
         expect(swappedEngine.nextPlayer, Player.PLAYER_O);
@@ -70,8 +70,8 @@ main() {
       try {
         // Create engine where it is clearly O's turn but try to make it X's
         // turn
-        IGameEngine gameEngine = 
-          new BasicGameEngine.fromMatrix(oTurn, Player.PLAYER_X);      
+        IGameEngine gameEngine =
+          new BasicGameEngine.fromMatrix(oTurn, Player.PLAYER_X);
         assert(null == "Excpected InvalidBoard");
       } on InvalidBoard catch(e) {
         _logger.info("Got expected: $e");
@@ -80,8 +80,8 @@ main() {
       }
 
       try {
-        IGameEngine gameEngine = 
-          new BasicGameEngine.fromMatrix(tooManyX);      
+        IGameEngine gameEngine =
+          new BasicGameEngine.fromMatrix(tooManyX);
         assert(null == "Excpected InvalidBoard");
       } on InvalidBoard catch(e) {
         _logger.info("Got expected: $e");

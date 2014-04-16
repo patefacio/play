@@ -1,11 +1,10 @@
 import "dart:io";
 import "package:ebisu/ebisu_dart_meta.dart";
 import "package:ebisu_web_ui/ebisu_web_ui.dart";
-import "package:pathos/path.dart" as path;
+import "package:path/path.dart" as path;
 
 main() {
-  Options options = new Options();
-  String here = path.dirname(path.absolute(options.script));
+  String here = path.dirname(path.absolute(Platform.script.path));
   String rootDir = "${here}/../..";
   String ticTacToeDir = "${rootDir}/tic_tac_toe";
 
@@ -13,9 +12,6 @@ main() {
     ..doc = 'Simple tic tac toe game'
     ..rootPath = rootDir
     ..dependencies = [
-      pubdep('split_panel')
-      ..gitRef = 'HEAD'
-      ..path = 'git://github.com/patefacio/split_panel',
     ]
     ..examples = [
       example(id('basic_game'))
@@ -31,7 +27,7 @@ main() {
       ..enums = [
         enum_('invalid_move_reason')
         ..doc = 'Reason for move failing'
-        ..values = [ 
+        ..values = [
           id('bad_location'),
           id('out_of_turn'),
           id('game_over'),
@@ -54,7 +50,7 @@ a draw, but that is still an INCOMPLETE game as opposed
 to CAT, since CAT state means the board is filled.
 
 '''
-        ..values = [ 
+        ..values = [
           id('x_won'), id('o_won'), id('incomplete'),
           id('cat_game'),
         ],
@@ -172,7 +168,7 @@ supports non-automated moves via [makeMove].
             ..doc = 'Number of slots that are currently empty'
             ..access = RO
             ..type = 'int'
-          ],          
+          ],
           class_('basic_game_engine')
           ..defaultMemberAccess = IA
           ..doc = '''

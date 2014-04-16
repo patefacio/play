@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html>
-  <head>
-      
+
     <!-- custom <ticTacToe head> -->
 
     <link rel="import" href="package:split_panel/components/s_p_v_panel.html">
@@ -10,11 +8,13 @@
 
     <!-- end <ticTacToe head> -->
 
-  </head>
-  <body>
-    <polymer-element name="tic-tac-toe" extends="div" constructor="TicTacToe" apply-author-styles>
-      <template>
-        
+<polymer-element name="tic-tac-toe"  apply-author-styles>
+  <template>
+    <style>
+    /* custom <ticTacToe style> */
+    /* end <ticTacToe style> */
+    </style>
+
         <!-- custom <ticTacToe template> -->
 
         <div style="width: 400px; height: 400px">
@@ -44,8 +44,6 @@
         </div>
         <!-- end <ticTacToe template> -->
 
-      </template>
-      <script type="application/dart" src="tic_tac_toe.dart"></script>
-    </polymer-element>
-  </body>
-</html>
+  </template>
+  <script type="application/dart" src="tic_tac_toe.dart"></script>
+</polymer-element>
